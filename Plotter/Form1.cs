@@ -19,9 +19,15 @@ namespace Plotter
         private SerialPort myport;
         Bitmap image;
         Bitmap result_image;
+        Bitmap temp;
+        Bitmap prev_image;
+        int image_x = 0;
+        int image_y =0;
 
-        Bitmap[] images = new Bitmap[30];
-        int images_index = 0;
+        Bitmap temp_org;
+        int temp_width_org = 0;
+        int temp_height_org = 0;
+
         int start_x = 0;
         int start_y = 0;
 
@@ -52,51 +58,99 @@ namespace Plotter
         }
         bool check_around(int x, int y) // look for arounding pixels that are white
         {
+            if (x + 1 > image.Width && x - 1 < 0 && y + 1 > image.Height && y - 1 < 0)
+                return true;
 
-            if (image.GetPixel(x + 1, y + 1).Name == "ffffffff")
+            if (x + 1 < image.Width && y + 1 < image.Height)
             {
-                return true;
+                if (image.GetPixel(x + 1, y + 1).Name == "ffffffff")
+                {
+                    return true;
+                }
             }
-            if (image.GetPixel(x + 1, y).Name == "ffffffff")
+            if (x + 1 < image.Width)
             {
-                return true;
+                if (image.GetPixel(x + 1, y).Name == "ffffffff")
+                {
+                    return true;
+                }
             }
-            if (image.GetPixel(x + 1, y - 1).Name == "ffffffff")
+            if (x + 1 < image.Width && y - 1 >= 0)
             {
-                return true;
+                if (image.GetPixel(x + 1, y - 1).Name == "ffffffff")
+                {
+                    return true;
+                }
             }
-            if (image.GetPixel(x - 1, y - 1).Name == "ffffffff")
+            if (x - 1 >= 0 && y - 1 >=0)
             {
-                return true;
+                if (image.GetPixel(x - 1, y - 1).Name == "ffffffff")
+                {
+                    return true;
+                }
             }
-            if (image.GetPixel(x - 1, y + 1).Name == "ffffffff")
+            if (x - 1 >=0 && y + 1 < image.Height)
             {
-                return true;
+                if (image.GetPixel(x - 1, y + 1).Name == "ffffffff")
+                {
+                    return true;
+                }
             }
-            if (image.GetPixel(x, y + 1).Name == "ffffffff")
+            if ( y + 1 < image.Height)
             {
-                return true;
+                if (image.GetPixel(x, y + 1).Name == "ffffffff")
+                {
+                    return true;
+                }
             }
-            if (image.GetPixel(x,y - 1).Name == "ffffffff")
+            if ( y - 1 >=0)
             {
-                return true;
+                if (image.GetPixel(x, y - 1).Name == "ffffffff")
+                {
+                    return true;
+                }
             }
-            if (image.GetPixel(x - 1, y).Name == "ffffffff")
+            if (x - 1 >= 0)
             {
-                return true;
+                if (image.GetPixel(x - 1, y).Name == "ffffffff")
+                {
+                    return true;
+                }
             }
 
             return false;
         }
+
+        
         private void Form1_DragDrop(object sender, DragEventArgs e)
         {
+            prev_image = new Bitmap(image);
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
 
             //pictureBox1.Image = Image.FromFile(files[0]);
-            Bitmap temp = new Bitmap(Image.FromFile(files[0]));
-            Selected_Image.Items.Add( files[0]);
-            images[images_index] = temp;
+            temp = new Bitmap(Image.FromFile(files[0]));
+            temp_org = new Bitmap(Image.FromFile(files[0]));
+            for (int y = 0; y < temp.Height; y++)
+            {
+                for (int x = 0; x< temp.Width; x++)
+                {
+                    if(x + image_x < image.Width && y + image_y < image.Height && temp.GetPixel(x,y).Name != "ffffffff")
+                        image.SetPixel(x + image_x, y+image_y, Color.Black);
+                }
+            }
+            temp_height_org = temp.Height;
+            temp_width_org = temp.Width;
+
+            pictureBox1.Image = image;
+          
             label1.Text = "";
+            numericUpDown1.Value = 100;
+            Selected_image_x.Value = 0;
+            Selected_image_y.Value = 0;
+            numericUpDown1.Enabled = true;
+            Selected_image_x.Enabled = true;
+            Selected_image_y.Enabled = true;
+            Selected_image_remove.Enabled = true;
             calculate.Enabled = true;
         }
 
@@ -109,8 +163,25 @@ namespace Plotter
         {
             AllowDrop = true;
             print.Enabled = false;
-            calculate.Enabled = true;
+            calculate.Enabled = false;
+            numericUpDown1.Enabled = false;
+            Selected_image_x.Enabled = false;
+            Selected_image_y.Enabled = false;
+            Selected_image_remove.Enabled = false;
             image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
+            prev_image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
+            using (Graphics gfx = Graphics.FromImage(image))
+            using (SolidBrush brush = new SolidBrush(Color.White))
+            {
+                gfx.FillRectangle(brush, 0, 0, pictureBox1.Width, pictureBox1.Height);
+            }
+            using (Graphics gfx = Graphics.FromImage(prev_image))
+            using (SolidBrush brush = new SolidBrush(Color.White))
+            {
+                gfx.FillRectangle(brush, 0, 0, pictureBox1.Width, pictureBox1.Height);
+            }
+
+            pictureBox1.Image = image;
         }
 
         private void print_Click(object sender, EventArgs e)
@@ -122,9 +193,31 @@ namespace Plotter
         {
             if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                pictureBox1.Image = Image.FromFile(openFileDialog1.FileName);
+                temp = new Bitmap(Image.FromFile(openFileDialog1.FileName));
+                temp_org = new Bitmap(Image.FromFile(openFileDialog1.FileName));
+                for (int y = 0; y < temp.Height; y++)
+                {
+                    for (int x = 0; x < temp.Width; x++)
+                    {
+                        if (x + image_x < image.Width && y + image_y < image.Height && temp.GetPixel(x, y).Name != "ffffffff")
+                            image.SetPixel(x + image_x, y + image_y, Color.Black);
+                    }
+                }
+                temp_height_org = temp.Height;
+                temp_width_org = temp.Width;
+
+                pictureBox1.Image = image;
+
                 label1.Text = "";
                 calculate.Enabled = true;
+
+                numericUpDown1.Value = 100;
+                Selected_image_x.Value = 0;
+                Selected_image_y.Value = 0;
+                numericUpDown1.Enabled = true;
+                Selected_image_x.Enabled = true;
+                Selected_image_y.Enabled = true;
+                Selected_image_remove.Enabled = true;
             }
         }
 
@@ -153,38 +246,62 @@ namespace Plotter
                  int direction = 8; //set default direction 
 
                 //check for arounded pixel that isn't white and set direction
-                 if (image.GetPixel(current_x + 1, current_y + 1).Name != "ffffffff" && writed[current_x+1, current_y+1] != 1 && check_around(current_x+1,current_y+1))
-                 {
-                     direction = 2;
-                 }
-                 if (image.GetPixel(current_x + 1, current_y).Name  != "ffffffff" && writed[current_x+1, current_y] != 1 && check_around(current_x+1, current_y))
-                 {
-                     direction = 0;
-                 }
-                 if (image.GetPixel(current_x + 1, current_y - 1).Name  != "ffffffff" && writed[current_x+1, current_y-1] != 1 && check_around(current_x+1, current_y-1))
-                 {
-                     direction = 1;
-                 }
-                 if (image.GetPixel(current_x - 1, current_y - 1).Name != "ffffffff" && writed[current_x-1, current_y-1] != 1 && check_around(current_x-1, current_y-1))
-                 {
-                     direction = 3;
-                 }
-                 if (image.GetPixel(current_x - 1, current_y + 1).Name != "ffffffff" && writed[current_x-1, current_y+1] != 1 && check_around(current_x-1, current_y+1))
-                 {
-                     direction = 4;
-                 }
-                 if (image.GetPixel(current_x, current_y + 1).Name != "ffffffff" && writed[current_x, current_y+1] != 1 && check_around(current_x, current_y+1))
-                 {
-                     direction = 5;
-                 }
-                 if (image.GetPixel(current_x, current_y - 1).Name != "ffffffff" && writed[current_x, current_y-1] != 1 && check_around(current_x, current_y-1))
-                 {
-                     direction = 6;
-                 }
-                 if (image.GetPixel(current_x - 1, current_y).Name != "ffffffff" && writed[current_x-1, current_y] != 1 && check_around(current_x-1, current_y))
-                 {
-                     direction = 7;
-                 }
+                if (current_x + 1 < image.Width && current_y + 1 < image.Height )
+                {
+                    if (image.GetPixel(current_x + 1, current_y + 1).Name != "ffffffff" && writed[current_x + 1, current_y + 1] != 1 && check_around(current_x + 1, current_y + 1))
+                    {
+                        direction = 2;
+                    }
+                }
+                if (current_x + 1 < image.Width)
+                {
+                    if (image.GetPixel(current_x + 1, current_y).Name != "ffffffff" && writed[current_x + 1, current_y] != 1 && check_around(current_x + 1, current_y))
+                    {
+                        direction = 0;
+                    }
+                }
+                if (current_x + 1 < image.Width && current_y - 1 >= 0)
+                {
+                    if (image.GetPixel(current_x + 1,current_y - 1).Name != "ffffffff" && writed[current_x + 1, current_y - 1] != 1 && check_around(current_x + 1, current_y - 1))
+                    {
+                        direction = 1;
+                    }
+                }
+                if (current_x - 1 >= 0 && current_y - 1 >= 0)
+                {
+                    if (image.GetPixel(current_x - 1, current_y - 1).Name != "ffffffff" && writed[current_x - 1, current_y - 1] != 1 && check_around(current_x - 1, current_y - 1))
+                    {
+                        direction = 3;
+                    }
+                }
+                if (current_x -1 >= 0  && current_y + 1 < image.Height)
+                {
+                    if (image.GetPixel(current_x - 1, current_y + 1).Name != "ffffffff" && writed[current_x - 1, current_y + 1] != 1 && check_around(current_x - 1, current_y + 1))
+                    {
+                        direction = 4;
+                    }
+                }
+                if ( current_y + 1 < image.Height)
+                {
+                    if (image.GetPixel(current_x, current_y + 1).Name != "ffffffff" && writed[current_x, current_y + 1] != 1 && check_around(current_x, current_y + 1))
+                    {
+                        direction = 5;
+                    }
+                }
+                if ( current_y - 1 >= 0)
+                {
+                    if (image.GetPixel(current_x, current_y - 1).Name != "ffffffff" && writed[current_x, current_y - 1] != 1 && check_around(current_x, current_y - 1))
+                    {
+                        direction = 6;
+                    }
+                }
+                if (current_x - 1 >= 0)
+                {
+                    if (image.GetPixel(Math.Abs(current_x - 1), current_y).Name != "ffffffff" && writed[Math.Abs(current_x - 1), current_y] != 1 && check_around(current_x - 1, current_y))
+                    {
+                        direction = 7;
+                    }
+                }
 
                  //if no arounded pixel is found
                  if(direction == 8)
@@ -212,16 +329,7 @@ namespace Plotter
                          //Close the file
                          sw.Close();
                         
-                     /*   for (int y = 0; y < image.Height && ok == 0; y++) //loop through all pixels
-                        {
-                            for (int x = 0; x < image.Width && ok == 0; x++)
-                            {
-                                if (writed[x,y] == 1) { 
-                                    result_image.SetPixel(x, y, Color.Black);
-                                    
-                                }
-                            }
-                        }*/
+                     
                         result.Image = result_image;
                         print.Enabled = true; // enable print button
                          return; // break out of infinity loop
@@ -287,8 +395,9 @@ namespace Plotter
 
 
                  }
-         }
-
+               
+            }
+             
       }
 
         private void Connect_Click(object sender, EventArgs e)
@@ -341,6 +450,7 @@ namespace Plotter
                 }
                 pictureBox1.Invalidate();
                 prev_point = e.Location;
+                calculate.Enabled = true;
             }
         }
 
@@ -357,12 +467,96 @@ namespace Plotter
 
         private void Selected_image_x_ValueChanged(object sender, EventArgs e)
         {
-
+            
+            for (int y = 0; y < temp.Height; y++)
+              {
+                  for (int x = 0; x < temp.Width; x++)
+                  {
+                      if (x + image_x < image.Width && y + image_y < image.Height && temp.GetPixel(x, y).Name == "ff000000" && prev_image.GetPixel(x, y).Name != "ff000000")
+                          image.SetPixel(x + image_x, y + image_y, Color.White);
+                  }
+              }
+              image_x = (int)Selected_image_x.Value;
+              for (int y = 0; y < temp.Height; y++)
+              {
+                  for (int x = 0; x < temp.Width; x++)
+                  {
+                      if (x + image_x < image.Width && y + image_y < image.Height && temp.GetPixel(x, y).Name == "ff000000")
+                          image.SetPixel(x + image_x, y + image_y, Color.Black);
+                  }
+              }
+             pictureBox1.Image = image;
+            
         }
 
         private void Selected_image_y_ValueChanged(object sender, EventArgs e)
         {
+            for (int y = 0; y < temp.Height; y++)
+            {
+                for (int x = 0; x < temp.Width; x++)
+                {
+                    if (x + image_x < image.Width && y + image_y < image.Height && temp.GetPixel(x, y).Name == "ff000000" && prev_image.GetPixel(x, y).Name != "ff000000")
+                        image.SetPixel(x + image_x, y + image_y, Color.White);
+                }
+            }
+            image_y = (int)Selected_image_y.Value;
+            for (int y = 0; y < temp.Height; y++)
+            {
+                for (int x = 0; x < temp.Width; x++)
+                {
+                    if (x + image_x < image.Width && y + image_y < image.Height && temp.GetPixel(x, y).Name == "ff000000")
+                        image.SetPixel(x + image_x, y + image_y, Color.Black);
+                }
+            }
+            pictureBox1.Image = image;
+        }
 
+        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        {
+            for (int y = 0; y < temp.Height; y++)
+            {
+                for (int x = 0; x < temp.Width; x++)
+                {
+                    if (x + image_x < image.Width && y + image_y < image.Height && temp.GetPixel(x, y).Name == "ff000000" && prev_image.GetPixel(x, y).Name != "ff000000")
+                        image.SetPixel(x + image_x, y + image_y, Color.White);
+                }
+            }
+            temp = new Bitmap(temp_org, new Size((int)(temp_width_org *( (float)numericUpDown1.Value /100)),(int)( temp_height_org *( (float)numericUpDown1.Value /100))));
+
+            for (int y = 0; y < temp.Height; y++)
+            {
+                for (int x = 0; x < temp.Width; x++)
+                {
+                    if (x + image_x < image.Width && y + image_y < image.Height && temp.GetPixel(x, y).Name == "ff000000")
+                        image.SetPixel(x + image_x, y + image_y, Color.Black);
+                }
+            }
+            pictureBox1.Image = image;
+        }
+
+        private void Selected_image_remove_Click(object sender, EventArgs e)
+        {
+            for (int y = 0; y < temp.Height; y++)
+            {
+                for (int x = 0; x < temp.Width; x++)
+                {
+                    if (x + image_x < image.Width && y + image_y < image.Height && temp.GetPixel(x, y).Name == "ff000000" && prev_image.GetPixel(x, y).Name != "ff000000")
+                        image.SetPixel(x + image_x, y + image_y, Color.White);
+                }
+            }
+
+            for (int y = 0; y < temp.Height; y++)
+            {
+                for (int x = 0; x < temp.Width; x++)
+                {
+                    temp.SetPixel(x, y, Color.White);
+                }
+            }
+            pictureBox1.Image = image;
+            numericUpDown1.Enabled = false;
+            Selected_image_x.Enabled = false;
+            Selected_image_y.Enabled = false;
+            Selected_image_remove.Enabled = false;
         }
     }
 }

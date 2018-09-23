@@ -37,7 +37,6 @@
             this.Connect = new System.Windows.Forms.Button();
             this.result = new System.Windows.Forms.PictureBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.Selected_Image = new System.Windows.Forms.ComboBox();
             this.Selected_image_x = new System.Windows.Forms.NumericUpDown();
             this.Selected_image_y = new System.Windows.Forms.NumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
@@ -137,22 +136,13 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(798, 182);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(40, 13);
+            this.label2.Size = new System.Drawing.Size(48, 13);
             this.label2.TabIndex = 7;
-            this.label2.Text = "Result:";
-            // 
-            // Selected_Image
-            // 
-            this.Selected_Image.FormattingEnabled = true;
-            this.Selected_Image.Location = new System.Drawing.Point(621, 40);
-            this.Selected_Image.Name = "Selected_Image";
-            this.Selected_Image.Size = new System.Drawing.Size(133, 21);
-            this.Selected_Image.TabIndex = 8;
-            this.Selected_Image.Text = "Select a image";
+            this.label2.Text = "Preview:";
             // 
             // Selected_image_x
             // 
-            this.Selected_image_x.Location = new System.Drawing.Point(783, 41);
+            this.Selected_image_x.Location = new System.Drawing.Point(766, 13);
             this.Selected_image_x.Name = "Selected_image_x";
             this.Selected_image_x.Size = new System.Drawing.Size(55, 20);
             this.Selected_image_x.TabIndex = 9;
@@ -160,7 +150,7 @@
             // 
             // Selected_image_y
             // 
-            this.Selected_image_y.Location = new System.Drawing.Point(864, 41);
+            this.Selected_image_y.Location = new System.Drawing.Point(847, 13);
             this.Selected_image_y.Name = "Selected_image_y";
             this.Selected_image_y.Size = new System.Drawing.Size(51, 20);
             this.Selected_image_y.TabIndex = 10;
@@ -169,7 +159,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(760, 43);
+            this.label3.Location = new System.Drawing.Point(743, 15);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(17, 13);
             this.label3.TabIndex = 11;
@@ -178,7 +168,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(844, 43);
+            this.label4.Location = new System.Drawing.Point(827, 15);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(17, 13);
             this.label4.TabIndex = 12;
@@ -186,24 +176,46 @@
             // 
             // Selected_image_remove
             // 
-            this.Selected_image_remove.Location = new System.Drawing.Point(621, 68);
+            this.Selected_image_remove.Location = new System.Drawing.Point(621, 39);
             this.Selected_image_remove.Name = "Selected_image_remove";
-            this.Selected_image_remove.Size = new System.Drawing.Size(75, 23);
+            this.Selected_image_remove.Size = new System.Drawing.Size(102, 23);
             this.Selected_image_remove.TabIndex = 13;
             this.Selected_image_remove.Text = "Remove";
             this.Selected_image_remove.UseVisualStyleBackColor = true;
+            this.Selected_image_remove.Click += new System.EventHandler(this.Selected_image_remove_Click);
             // 
             // numericUpDown1
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(783, 66);
+            this.numericUpDown1.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.numericUpDown1.Location = new System.Drawing.Point(766, 42);
+            this.numericUpDown1.Maximum = new decimal(new int[] {
+            500,
+            0,
+            0,
+            0});
+            this.numericUpDown1.Minimum = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
             this.numericUpDown1.Name = "numericUpDown1";
             this.numericUpDown1.Size = new System.Drawing.Size(55, 20);
             this.numericUpDown1.TabIndex = 14;
+            this.numericUpDown1.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.numericUpDown1.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(747, 68);
+            this.label5.Location = new System.Drawing.Point(730, 44);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(30, 13);
             this.label5.TabIndex = 15;
@@ -213,7 +225,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(844, 68);
+            this.label6.Location = new System.Drawing.Point(827, 44);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(20, 17);
             this.label6.TabIndex = 16;
@@ -233,7 +245,6 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.Selected_image_y);
             this.Controls.Add(this.Selected_image_x);
-            this.Controls.Add(this.Selected_Image);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.result);
             this.Controls.Add(this.Connect);
@@ -268,7 +279,6 @@
         private System.Windows.Forms.Button Connect;
         private System.Windows.Forms.PictureBox result;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.ComboBox Selected_Image;
         private System.Windows.Forms.NumericUpDown Selected_image_x;
         private System.Windows.Forms.NumericUpDown Selected_image_y;
         private System.Windows.Forms.Label label3;
