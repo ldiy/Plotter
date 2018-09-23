@@ -126,32 +126,33 @@ namespace Plotter
         {
             prev_image = new Bitmap(image);
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-
-            //pictureBox1.Image = Image.FromFile(files[0]);
-            temp = new Bitmap(Image.FromFile(files[0]));
-            temp_org = new Bitmap(Image.FromFile(files[0]));
-            for (int y = 0; y < temp.Height; y++)
+            if (Path.GetExtension(files[0]) == ".png" || Path.GetExtension(files[0]) == ".PNG" || Path.GetExtension(files[0]) == ".jpg" || Path.GetExtension(files[0]) == ".JPG" || Path.GetExtension(files[0]) == ".jpeg" || Path.GetExtension(files[0]) == ".JPEG)
             {
-                for (int x = 0; x< temp.Width; x++)
+                temp = new Bitmap(Image.FromFile(files[0]));
+                temp_org = new Bitmap(Image.FromFile(files[0]));
+                for (int y = 0; y < temp.Height; y++)
                 {
-                    if(x + image_x < image.Width && y + image_y < image.Height && temp.GetPixel(x,y).Name != "ffffffff")
-                        image.SetPixel(x + image_x, y+image_y, Color.Black);
+                    for (int x = 0; x < temp.Width; x++)
+                    {
+                        if (x + image_x < image.Width && y + image_y < image.Height && temp.GetPixel(x, y).Name != "ffffffff")
+                            image.SetPixel(x + image_x, y + image_y, Color.Black);
+                    }
                 }
-            }
-            temp_height_org = temp.Height;
-            temp_width_org = temp.Width;
+                temp_height_org = temp.Height;
+                temp_width_org = temp.Width;
 
-            pictureBox1.Image = image;
-          
-            label1.Text = "";
-            numericUpDown1.Value = 100;
-            Selected_image_x.Value = 0;
-            Selected_image_y.Value = 0;
-            numericUpDown1.Enabled = true;
-            Selected_image_x.Enabled = true;
-            Selected_image_y.Enabled = true;
-            Selected_image_remove.Enabled = true;
-            calculate.Enabled = true;
+                pictureBox1.Image = image;
+
+                label1.Text = "";
+                numericUpDown1.Value = 100;
+                Selected_image_x.Value = 0;
+                Selected_image_y.Value = 0;
+                numericUpDown1.Enabled = true;
+                Selected_image_x.Enabled = true;
+                Selected_image_y.Enabled = true;
+                Selected_image_remove.Enabled = true;
+                calculate.Enabled = true;
+            }
         }
 
         private void Form1_DragEnter(object sender, DragEventArgs e)
@@ -403,7 +404,7 @@ namespace Plotter
         private void Connect_Click(object sender, EventArgs e)
         {
           int  ok = 1;
-
+            
             try
             {
                 myport = new SerialPort();
@@ -557,6 +558,8 @@ namespace Plotter
             Selected_image_x.Enabled = false;
             Selected_image_y.Enabled = false;
             Selected_image_remove.Enabled = false;
+            
+
         }
     }
 }
