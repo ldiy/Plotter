@@ -126,7 +126,7 @@ namespace Plotter
         {
             prev_image = new Bitmap(image);
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-            if (Path.GetExtension(files[0]) == ".png" || Path.GetExtension(files[0]) == ".PNG" || Path.GetExtension(files[0]) == ".jpg" || Path.GetExtension(files[0]) == ".JPG" || Path.GetExtension(files[0]) == ".jpeg" || Path.GetExtension(files[0]) == ".JPEG)
+            if (Path.GetExtension(files[0]) == ".png" || Path.GetExtension(files[0]) == ".PNG" || Path.GetExtension(files[0]) == ".jpg" || Path.GetExtension(files[0]) == ".JPG" || Path.GetExtension(files[0]) == ".jpeg" || Path.GetExtension(files[0]) == ".JPEG")
             {
                 temp = new Bitmap(Image.FromFile(files[0]));
                 temp_org = new Bitmap(Image.FromFile(files[0]));
