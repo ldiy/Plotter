@@ -34,19 +34,18 @@ namespace Plotter
         bool mouse_status = false;
         Point prev_point = Point.Empty;
 
+        int draw_mode = 1; // 1 = pen    0 = gum
+
         public Form1()
         {
             InitializeComponent();
         }
         void find_begin() // find first pixel != white
         {
-            
             for (int y = 0; y < image.Height; y++)
             {
-
                 for (int x = 0; x < image.Width; x++)
                 {
-
                     if (image.GetPixel(x, y).Name != "ffffffff")
                     {
                         start_x = x;
@@ -58,7 +57,7 @@ namespace Plotter
         }
         bool check_around(int x, int y) // look for arounding pixels that are white
         {
-            if (x + 1 > image.Width && x - 1 < 0 && y + 1 > image.Height && y - 1 < 0)
+            if (x + 1 > image.Width && x - 1 < 0 && y + 1 > image.Height && y - 1 < 0) //check if it is in its limtis
                 return true;
 
             if (x + 1 < image.Width && y + 1 < image.Height)
@@ -122,14 +121,17 @@ namespace Plotter
         }
 
         
-        private void Form1_DragDrop(object sender, DragEventArgs e)
+        private void Form1_DragDrop(object sender, DragEventArgs e) //function for draging files
         {
             prev_image = new Bitmap(image);
-            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-            if (Path.GetExtension(files[0]) == ".png" || Path.GetExtension(files[0]) == ".PNG" || Path.GetExtension(files[0]) == ".jpg" || Path.GetExtension(files[0]) == ".JPG" || Path.GetExtension(files[0]) == ".jpeg" || Path.GetExtension(files[0]) == ".JPEG")
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop); //get file location 
+            if (Path.GetExtension(files[0]) == ".png" || Path.GetExtension(files[0]) == ".PNG" || Path.GetExtension(files[0]) == ".jpg" || Path.GetExtension(files[0]) == ".JPG" || Path.GetExtension(files[0]) == ".jpeg" || Path.GetExtension(files[0]) == ".JPEG") //check if file is a image
             {
+                //get bitmap form image
                 temp = new Bitmap(Image.FromFile(files[0]));
                 temp_org = new Bitmap(Image.FromFile(files[0]));
+
+                //add image to full image
                 for (int y = 0; y < temp.Height; y++)
                 {
                     for (int x = 0; x < temp.Width; x++)
@@ -138,11 +140,11 @@ namespace Plotter
                             image.SetPixel(x + image_x, y + image_y, Color.Black);
                     }
                 }
-                temp_height_org = temp.Height;
-                temp_width_org = temp.Width;
-
                 pictureBox1.Image = image;
 
+                //set some vars
+                temp_height_org = temp.Height;
+                temp_width_org = temp.Width;
                 label1.Text = "";
                 numericUpDown1.Value = 100;
                 Selected_image_x.Value = 0;
@@ -162,6 +164,7 @@ namespace Plotter
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            //set some vars
             AllowDrop = true;
             print.Enabled = false;
             calculate.Enabled = false;
@@ -169,8 +172,13 @@ namespace Plotter
             Selected_image_x.Enabled = false;
             Selected_image_y.Enabled = false;
             Selected_image_remove.Enabled = false;
+            Pen_button.Enabled = false;
+            Gum.Enabled = true;
+            //create new bitmaps with size of the picturebox
             image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             prev_image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
+
+            //make created bitmaps fully white
             using (Graphics gfx = Graphics.FromImage(image))
             using (SolidBrush brush = new SolidBrush(Color.White))
             {
@@ -182,20 +190,24 @@ namespace Plotter
                 gfx.FillRectangle(brush, 0, 0, pictureBox1.Width, pictureBox1.Height);
             }
 
+            //display bitmap in picturebox
             pictureBox1.Image = image;
         }
 
-        private void print_Click(object sender, EventArgs e)
+        private void print_Click(object sender, EventArgs e) //Send to plotter
         {
 
         }
 
-        private void SelectImage_Click(object sender, EventArgs e)
+        private void SelectImage_Click(object sender, EventArgs e) //function for select an image
         {
-            if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK) //open a file dialog
             {
+                //create bitmaps from file
                 temp = new Bitmap(Image.FromFile(openFileDialog1.FileName));
                 temp_org = new Bitmap(Image.FromFile(openFileDialog1.FileName));
+
+                //add selected bitmap to fully bitmap
                 for (int y = 0; y < temp.Height; y++)
                 {
                     for (int x = 0; x < temp.Width; x++)
@@ -204,14 +216,13 @@ namespace Plotter
                             image.SetPixel(x + image_x, y + image_y, Color.Black);
                     }
                 }
+                pictureBox1.Image = image; //display bitmap in picturebox
+
+                //set some vars
                 temp_height_org = temp.Height;
-                temp_width_org = temp.Width;
-
-                pictureBox1.Image = image;
-
+                temp_width_org = temp.Width;           
                 label1.Text = "";
                 calculate.Enabled = true;
-
                 numericUpDown1.Value = 100;
                 Selected_image_x.Value = 0;
                 Selected_image_y.Value = 0;
@@ -225,7 +236,7 @@ namespace Plotter
         private void calculate_Click(object sender, EventArgs e)
         {
 
-            if (pictureBox1.Image == null)
+            if (pictureBox1.Image == null) //check if a image is in the picturebox
             {
                 return;
             }
@@ -425,20 +436,21 @@ namespace Plotter
             }
         }
 
-        private void pictureBox1_Paint(object sender, PaintEventArgs e)
+        private void pictureBox1_Paint(object sender, PaintEventArgs e) //border around picturebox
         {
             ControlPaint.DrawBorder(e.Graphics, pictureBox1.ClientRectangle, Color.Black, ButtonBorderStyle.Solid);
         }
 
-        private void result_Paint(object sender, PaintEventArgs e)
+        private void result_Paint(object sender, PaintEventArgs e) //border around picturebox
         {
             ControlPaint.DrawBorder(e.Graphics, result.ClientRectangle, Color.Black, ButtonBorderStyle.Solid);
         }
 
-        private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
+        private void pictureBox1_MouseMove(object sender, MouseEventArgs e) //draw in bitmap with mouse
         {
             if (mouse_status && prev_point != null)
             {
+                
                 if (pictureBox1.Image == null)
                 {
                     Bitmap bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
@@ -447,11 +459,19 @@ namespace Plotter
 
                 using (Graphics g = Graphics.FromImage(pictureBox1.Image))
                 {
-                    g.DrawLine(new Pen(Color.Black, 2), prev_point, e.Location);
+                    if (draw_mode == 1)
+                    {
+                        g.DrawLine(new Pen(Color.Black, (int)draw_tool_size.Value), prev_point, e.Location);
+                    }
+                    else if(draw_mode == 0)
+                    {
+                        g.DrawLine(new Pen(Color.White, (int)draw_tool_size.Value), prev_point, e.Location);
+                    }
                 }
                 pictureBox1.Invalidate();
                 prev_point = e.Location;
                 calculate.Enabled = true;
+                label1.Text = "";
             }
         }
 
@@ -468,8 +488,9 @@ namespace Plotter
 
         private void Selected_image_x_ValueChanged(object sender, EventArgs e)
         {
-            
-            for (int y = 0; y < temp.Height; y++)
+               
+            // clear previous drawed
+              for (int y = 0; y < temp.Height; y++)
               {
                   for (int x = 0; x < temp.Width; x++)
                   {
@@ -477,7 +498,10 @@ namespace Plotter
                           image.SetPixel(x + image_x, y + image_y, Color.White);
                   }
               }
-              image_x = (int)Selected_image_x.Value;
+
+              image_x = (int)Selected_image_x.Value; //update x value
+
+                //draw temp bitmap on new position
               for (int y = 0; y < temp.Height; y++)
               {
                   for (int x = 0; x < temp.Width; x++)
@@ -486,12 +510,13 @@ namespace Plotter
                           image.SetPixel(x + image_x, y + image_y, Color.Black);
                   }
               }
-             pictureBox1.Image = image;
+             pictureBox1.Image = image; //display image in picturebox
             
         }
 
         private void Selected_image_y_ValueChanged(object sender, EventArgs e)
         {
+            //clear previous drawed bitmap
             for (int y = 0; y < temp.Height; y++)
             {
                 for (int x = 0; x < temp.Width; x++)
@@ -500,7 +525,10 @@ namespace Plotter
                         image.SetPixel(x + image_x, y + image_y, Color.White);
                 }
             }
-            image_y = (int)Selected_image_y.Value;
+            
+            image_y = (int)Selected_image_y.Value; //change y value
+
+            //draw bitmap on new position
             for (int y = 0; y < temp.Height; y++)
             {
                 for (int x = 0; x < temp.Width; x++)
@@ -509,11 +537,12 @@ namespace Plotter
                         image.SetPixel(x + image_x, y + image_y, Color.Black);
                 }
             }
-            pictureBox1.Image = image;
+            pictureBox1.Image = image; //display bitmap in picturebox
         }
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
+            //clear previous drawed image
             for (int y = 0; y < temp.Height; y++)
             {
                 for (int x = 0; x < temp.Width; x++)
@@ -522,8 +551,11 @@ namespace Plotter
                         image.SetPixel(x + image_x, y + image_y, Color.White);
                 }
             }
+
+            //change size of bitmap
             temp = new Bitmap(temp_org, new Size((int)(temp_width_org *( (float)numericUpDown1.Value /100)),(int)( temp_height_org *( (float)numericUpDown1.Value /100))));
 
+            //draw resizid bitmap on image
             for (int y = 0; y < temp.Height; y++)
             {
                 for (int x = 0; x < temp.Width; x++)
@@ -532,11 +564,13 @@ namespace Plotter
                         image.SetPixel(x + image_x, y + image_y, Color.Black);
                 }
             }
-            pictureBox1.Image = image;
+
+            pictureBox1.Image = image; //display bitmap in picturebox
         }
 
         private void Selected_image_remove_Click(object sender, EventArgs e)
         {
+            //clear drawed image
             for (int y = 0; y < temp.Height; y++)
             {
                 for (int x = 0; x < temp.Width; x++)
@@ -546,6 +580,7 @@ namespace Plotter
                 }
             }
 
+            //clear temp bitmap
             for (int y = 0; y < temp.Height; y++)
             {
                 for (int x = 0; x < temp.Width; x++)
@@ -553,13 +588,37 @@ namespace Plotter
                     temp.SetPixel(x, y, Color.White);
                 }
             }
-            pictureBox1.Image = image;
+
+            pictureBox1.Image = image; // display bitmap in picturebox
+
+            //set some vars
             numericUpDown1.Enabled = false;
             Selected_image_x.Enabled = false;
             Selected_image_y.Enabled = false;
             Selected_image_remove.Enabled = false;
             
 
+        }
+
+        private void Clean_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Pen_button_Click(object sender, EventArgs e)
+        {
+            Gum.Enabled = true;
+            Pen_button.Enabled = false;
+            draw_mode = 1;
+        
+        }
+
+        private void Gum_Click(object sender, EventArgs e)
+        {
+            Pen_button.Enabled = true;
+            Gum.Enabled = false;
+            draw_mode = 0;
+     
         }
     }
 }
