@@ -40,6 +40,23 @@ namespace Plotter
         {
             InitializeComponent();
         }
+
+        private void Myport_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        {
+            string line = myport.ReadLine();
+            this.BeginInvoke(new LineReceivedEvent(LineReceived), line);
+        }
+
+        private delegate void LineReceivedEvent(string line);
+        private void LineReceived(string line)
+        {
+            //What to do with the received line here
+            String SerialOntvangen = (Serial_box.Text + "\r\n" + line);
+            Serial_box.Text = (SerialOntvangen);
+            Serial_box.ScrollToCaret();
+
+
+        }
         void find_begin() // find first pixel != white
         {
             for (int y = 0; y < image.Height; y++)
@@ -174,6 +191,14 @@ namespace Plotter
             Selected_image_remove.Enabled = false;
             Pen_button.Enabled = false;
             Gum.Enabled = true;
+            X_add.Enabled = false;
+            X_min.Enabled = false;
+            Y_add.Enabled = false;
+            Y_min.Enabled = false;
+            home.Enabled = false;
+            Clean.Enabled = false;
+            Pen_down_button.Enabled = false;
+            pen_up_button.Enabled = false;
             //create new bitmaps with size of the picturebox
             image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             prev_image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
@@ -415,7 +440,7 @@ namespace Plotter
         private void Connect_Click(object sender, EventArgs e)
         {
           int  ok = 1;
-            
+            poort = COM_port.Text;
             try
             {
                 myport = new SerialPort();
@@ -432,7 +457,15 @@ namespace Plotter
             if (ok == 1)
             {
                 MessageBox.Show("verbinding gemaakt op " + poort, "verbinding gemaakt.", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-
+                myport.DataReceived += Myport_DataReceived;
+                X_add.Enabled = true;
+                X_min.Enabled = true;
+                Y_add.Enabled = true;
+                Y_min.Enabled = true;
+                home.Enabled = true;
+                Clean.Enabled = true;
+                Pen_down_button.Enabled = true;
+                pen_up_button.Enabled = true;
             }
         }
 
@@ -619,6 +652,41 @@ namespace Plotter
             Gum.Enabled = false;
             draw_mode = 0;
      
+        }
+
+        private void X_add_Click(object sender, EventArgs e)
+        {
+            myport.WriteLine("G0 X" + Step_size + " F2400");
+        }
+
+        private void X_min_Click(object sender, EventArgs e)
+        {
+            myport.WriteLine("G0 X-" + Step_size + " F2400");
+        }
+
+        private void Y_add_Click(object sender, EventArgs e)
+        {
+            myport.WriteLine("G0 Y" + Step_size + " F2400");
+        }
+
+        private void Y_min_Click(object sender, EventArgs e)
+        {
+            myport.WriteLine("G0 Y-" + Step_size + " F2400");
+        }
+
+        private void Pen_down_button_Click(object sender, EventArgs e)
+        {
+            myport.WriteLine(pen_down);
+        }
+
+        private void pen_up_button_Click(object sender, EventArgs e)
+        {
+            myport.WriteLine(pen_up);
+        }
+
+        private void home_Click(object sender, EventArgs e)
+        {
+            myport.WriteLine("$H");
         }
     }
 }

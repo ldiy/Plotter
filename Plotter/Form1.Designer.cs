@@ -48,24 +48,26 @@
             this.Clean = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.COM_port = new System.Windows.Forms.ComboBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.Actions = new System.Windows.Forms.GroupBox();
-            this.X_add = new System.Windows.Forms.Button();
-            this.X_min = new System.Windows.Forms.Button();
-            this.home = new System.Windows.Forms.Button();
-            this.Y_add = new System.Windows.Forms.Button();
-            this.Y_min = new System.Windows.Forms.Button();
-            this.Pen_down_button = new System.Windows.Forms.Button();
-            this.pen_up_button = new System.Windows.Forms.Button();
-            this.Pen_button = new System.Windows.Forms.Button();
-            this.Gum = new System.Windows.Forms.Button();
-            this.label8 = new System.Windows.Forms.Label();
-            this.draw_tool_size = new System.Windows.Forms.NumericUpDown();
             this.label9 = new System.Windows.Forms.Label();
+            this.draw_tool_size = new System.Windows.Forms.NumericUpDown();
+            this.label8 = new System.Windows.Forms.Label();
+            this.Gum = new System.Windows.Forms.Button();
+            this.Pen_button = new System.Windows.Forms.Button();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.COM_port = new System.Windows.Forms.ComboBox();
+            this.Actions = new System.Windows.Forms.GroupBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.Step_size = new System.Windows.Forms.NumericUpDown();
+            this.pen_up_button = new System.Windows.Forms.Button();
+            this.Pen_down_button = new System.Windows.Forms.Button();
+            this.Y_min = new System.Windows.Forms.Button();
+            this.Y_add = new System.Windows.Forms.Button();
+            this.home = new System.Windows.Forms.Button();
+            this.X_min = new System.Windows.Forms.Button();
+            this.X_add = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.Serial_box = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.result)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Selected_image_x)).BeginInit();
@@ -73,9 +75,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.draw_tool_size)).BeginInit();
             this.groupBox3.SuspendLayout();
             this.Actions.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.draw_tool_size)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Step_size)).BeginInit();
             this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -262,9 +265,9 @@
             // 
             // Clean
             // 
-            this.Clean.Location = new System.Drawing.Point(6, 77);
+            this.Clean.Location = new System.Drawing.Point(6, 103);
             this.Clean.Name = "Clean";
-            this.Clean.Size = new System.Drawing.Size(75, 49);
+            this.Clean.Size = new System.Drawing.Size(89, 23);
             this.Clean.TabIndex = 17;
             this.Clean.Text = "Clean";
             this.Clean.UseVisualStyleBackColor = true;
@@ -302,143 +305,14 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Draw";
             // 
-            // groupBox3
+            // label9
             // 
-            this.groupBox3.Controls.Add(this.label7);
-            this.groupBox3.Controls.Add(this.COM_port);
-            this.groupBox3.Controls.Add(this.Connect);
-            this.groupBox3.Location = new System.Drawing.Point(921, 12);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(182, 80);
-            this.groupBox3.TabIndex = 20;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Connect";
-            // 
-            // COM_port
-            // 
-            this.COM_port.FormattingEnabled = true;
-            this.COM_port.Location = new System.Drawing.Point(49, 17);
-            this.COM_port.Name = "COM_port";
-            this.COM_port.Size = new System.Drawing.Size(121, 21);
-            this.COM_port.TabIndex = 6;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(7, 20);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(29, 13);
-            this.label7.TabIndex = 7;
-            this.label7.Text = "Port:";
-            // 
-            // Actions
-            // 
-            this.Actions.Controls.Add(this.pen_up_button);
-            this.Actions.Controls.Add(this.Pen_down_button);
-            this.Actions.Controls.Add(this.Y_min);
-            this.Actions.Controls.Add(this.Y_add);
-            this.Actions.Controls.Add(this.home);
-            this.Actions.Controls.Add(this.X_min);
-            this.Actions.Controls.Add(this.X_add);
-            this.Actions.Controls.Add(this.Clean);
-            this.Actions.Location = new System.Drawing.Point(921, 100);
-            this.Actions.Name = "Actions";
-            this.Actions.Size = new System.Drawing.Size(182, 134);
-            this.Actions.TabIndex = 21;
-            this.Actions.TabStop = false;
-            this.Actions.Text = "Actions";
-            // 
-            // X_add
-            // 
-            this.X_add.Location = new System.Drawing.Point(10, 19);
-            this.X_add.Name = "X_add";
-            this.X_add.Size = new System.Drawing.Size(52, 23);
-            this.X_add.TabIndex = 18;
-            this.X_add.Text = "X +";
-            this.X_add.UseVisualStyleBackColor = true;
-            // 
-            // X_min
-            // 
-            this.X_min.Location = new System.Drawing.Point(125, 19);
-            this.X_min.Name = "X_min";
-            this.X_min.Size = new System.Drawing.Size(45, 23);
-            this.X_min.TabIndex = 19;
-            this.X_min.Text = "X -";
-            this.X_min.UseVisualStyleBackColor = true;
-            // 
-            // home
-            // 
-            this.home.Location = new System.Drawing.Point(68, 19);
-            this.home.Name = "home";
-            this.home.Size = new System.Drawing.Size(51, 52);
-            this.home.TabIndex = 20;
-            this.home.Text = "Home";
-            this.home.UseVisualStyleBackColor = true;
-            // 
-            // Y_add
-            // 
-            this.Y_add.Location = new System.Drawing.Point(10, 48);
-            this.Y_add.Name = "Y_add";
-            this.Y_add.Size = new System.Drawing.Size(52, 23);
-            this.Y_add.TabIndex = 21;
-            this.Y_add.Text = "Y +";
-            this.Y_add.UseVisualStyleBackColor = true;
-            // 
-            // Y_min
-            // 
-            this.Y_min.Location = new System.Drawing.Point(125, 48);
-            this.Y_min.Name = "Y_min";
-            this.Y_min.Size = new System.Drawing.Size(45, 23);
-            this.Y_min.TabIndex = 22;
-            this.Y_min.Text = "Y -";
-            this.Y_min.UseVisualStyleBackColor = true;
-            // 
-            // Pen_down_button
-            // 
-            this.Pen_down_button.Location = new System.Drawing.Point(101, 77);
-            this.Pen_down_button.Name = "Pen_down_button";
-            this.Pen_down_button.Size = new System.Drawing.Size(75, 23);
-            this.Pen_down_button.TabIndex = 23;
-            this.Pen_down_button.Text = "Pen Down";
-            this.Pen_down_button.UseVisualStyleBackColor = true;
-            // 
-            // pen_up_button
-            // 
-            this.pen_up_button.Location = new System.Drawing.Point(101, 103);
-            this.pen_up_button.Name = "pen_up_button";
-            this.pen_up_button.Size = new System.Drawing.Size(75, 23);
-            this.pen_up_button.TabIndex = 24;
-            this.pen_up_button.Text = "Pen Up";
-            this.pen_up_button.UseVisualStyleBackColor = true;
-            // 
-            // Pen_button
-            // 
-            this.Pen_button.Location = new System.Drawing.Point(6, 19);
-            this.Pen_button.Name = "Pen_button";
-            this.Pen_button.Size = new System.Drawing.Size(53, 23);
-            this.Pen_button.TabIndex = 0;
-            this.Pen_button.Text = "Pen";
-            this.Pen_button.UseVisualStyleBackColor = true;
-            this.Pen_button.Click += new System.EventHandler(this.Pen_button_Click);
-            // 
-            // Gum
-            // 
-            this.Gum.Location = new System.Drawing.Point(65, 19);
-            this.Gum.Name = "Gum";
-            this.Gum.Size = new System.Drawing.Size(59, 23);
-            this.Gum.TabIndex = 1;
-            this.Gum.Text = "Gum";
-            this.Gum.UseVisualStyleBackColor = true;
-            this.Gum.Click += new System.EventHandler(this.Gum_Click);
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(130, 24);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(30, 13);
-            this.label8.TabIndex = 2;
-            this.label8.Text = "Size:";
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(229, 24);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(18, 13);
+            this.label9.TabIndex = 4;
+            this.label9.Text = "px";
             // 
             // draw_tool_size
             // 
@@ -462,18 +336,201 @@
             0,
             0});
             // 
-            // label9
+            // label8
             // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(229, 24);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(18, 13);
-            this.label9.TabIndex = 4;
-            this.label9.Text = "px";
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(130, 24);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(30, 13);
+            this.label8.TabIndex = 2;
+            this.label8.Text = "Size:";
+            // 
+            // Gum
+            // 
+            this.Gum.Location = new System.Drawing.Point(65, 19);
+            this.Gum.Name = "Gum";
+            this.Gum.Size = new System.Drawing.Size(59, 23);
+            this.Gum.TabIndex = 1;
+            this.Gum.Text = "Gum";
+            this.Gum.UseVisualStyleBackColor = true;
+            this.Gum.Click += new System.EventHandler(this.Gum_Click);
+            // 
+            // Pen_button
+            // 
+            this.Pen_button.Location = new System.Drawing.Point(6, 19);
+            this.Pen_button.Name = "Pen_button";
+            this.Pen_button.Size = new System.Drawing.Size(53, 23);
+            this.Pen_button.TabIndex = 0;
+            this.Pen_button.Text = "Pen";
+            this.Pen_button.UseVisualStyleBackColor = true;
+            this.Pen_button.Click += new System.EventHandler(this.Pen_button_Click);
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.label7);
+            this.groupBox3.Controls.Add(this.COM_port);
+            this.groupBox3.Controls.Add(this.Connect);
+            this.groupBox3.Location = new System.Drawing.Point(921, 12);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(182, 80);
+            this.groupBox3.TabIndex = 20;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Connect";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(7, 20);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(29, 13);
+            this.label7.TabIndex = 7;
+            this.label7.Text = "Port:";
+            // 
+            // COM_port
+            // 
+            this.COM_port.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.COM_port.FormattingEnabled = true;
+            this.COM_port.Items.AddRange(new object[] {
+            "COM1",
+            "COM2",
+            "COM3",
+            "COM4",
+            "COM5",
+            "COM6",
+            "COM7",
+            "COM8",
+            "COM9",
+            "COM10"});
+            this.COM_port.Location = new System.Drawing.Point(49, 17);
+            this.COM_port.Name = "COM_port";
+            this.COM_port.Size = new System.Drawing.Size(121, 21);
+            this.COM_port.TabIndex = 6;
+            // 
+            // Actions
+            // 
+            this.Actions.Controls.Add(this.Step_size);
+            this.Actions.Controls.Add(this.label10);
+            this.Actions.Controls.Add(this.pen_up_button);
+            this.Actions.Controls.Add(this.Pen_down_button);
+            this.Actions.Controls.Add(this.Y_min);
+            this.Actions.Controls.Add(this.Y_add);
+            this.Actions.Controls.Add(this.home);
+            this.Actions.Controls.Add(this.X_min);
+            this.Actions.Controls.Add(this.X_add);
+            this.Actions.Controls.Add(this.Clean);
+            this.Actions.Location = new System.Drawing.Point(921, 100);
+            this.Actions.Name = "Actions";
+            this.Actions.Size = new System.Drawing.Size(182, 134);
+            this.Actions.TabIndex = 21;
+            this.Actions.TabStop = false;
+            this.Actions.Text = "Actions";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.BackColor = System.Drawing.Color.Transparent;
+            this.label10.Font = new System.Drawing.Font("Times New Roman", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.Location = new System.Drawing.Point(0, 80);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(50, 14);
+            this.label10.TabIndex = 26;
+            this.label10.Text = "Step size:";
+            // 
+            // Step_size
+            // 
+            this.Step_size.Location = new System.Drawing.Point(49, 78);
+            this.Step_size.Maximum = new decimal(new int[] {
+            500,
+            0,
+            0,
+            0});
+            this.Step_size.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.Step_size.Name = "Step_size";
+            this.Step_size.Size = new System.Drawing.Size(46, 20);
+            this.Step_size.TabIndex = 25;
+            this.Step_size.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // pen_up_button
+            // 
+            this.pen_up_button.Location = new System.Drawing.Point(101, 103);
+            this.pen_up_button.Name = "pen_up_button";
+            this.pen_up_button.Size = new System.Drawing.Size(75, 23);
+            this.pen_up_button.TabIndex = 24;
+            this.pen_up_button.Text = "Pen Up";
+            this.pen_up_button.UseVisualStyleBackColor = true;
+            this.pen_up_button.Click += new System.EventHandler(this.pen_up_button_Click);
+            // 
+            // Pen_down_button
+            // 
+            this.Pen_down_button.Location = new System.Drawing.Point(101, 77);
+            this.Pen_down_button.Name = "Pen_down_button";
+            this.Pen_down_button.Size = new System.Drawing.Size(75, 23);
+            this.Pen_down_button.TabIndex = 23;
+            this.Pen_down_button.Text = "Pen Down";
+            this.Pen_down_button.UseVisualStyleBackColor = true;
+            this.Pen_down_button.Click += new System.EventHandler(this.Pen_down_button_Click);
+            // 
+            // Y_min
+            // 
+            this.Y_min.Location = new System.Drawing.Point(125, 48);
+            this.Y_min.Name = "Y_min";
+            this.Y_min.Size = new System.Drawing.Size(45, 23);
+            this.Y_min.TabIndex = 22;
+            this.Y_min.Text = "Y -";
+            this.Y_min.UseVisualStyleBackColor = true;
+            this.Y_min.Click += new System.EventHandler(this.Y_min_Click);
+            // 
+            // Y_add
+            // 
+            this.Y_add.Location = new System.Drawing.Point(10, 48);
+            this.Y_add.Name = "Y_add";
+            this.Y_add.Size = new System.Drawing.Size(52, 23);
+            this.Y_add.TabIndex = 21;
+            this.Y_add.Text = "Y +";
+            this.Y_add.UseVisualStyleBackColor = true;
+            this.Y_add.Click += new System.EventHandler(this.Y_add_Click);
+            // 
+            // home
+            // 
+            this.home.Location = new System.Drawing.Point(68, 19);
+            this.home.Name = "home";
+            this.home.Size = new System.Drawing.Size(51, 52);
+            this.home.TabIndex = 20;
+            this.home.Text = "Home";
+            this.home.UseVisualStyleBackColor = true;
+            this.home.Click += new System.EventHandler(this.home_Click);
+            // 
+            // X_min
+            // 
+            this.X_min.Location = new System.Drawing.Point(125, 19);
+            this.X_min.Name = "X_min";
+            this.X_min.Size = new System.Drawing.Size(45, 23);
+            this.X_min.TabIndex = 19;
+            this.X_min.Text = "X -";
+            this.X_min.UseVisualStyleBackColor = true;
+            this.X_min.Click += new System.EventHandler(this.X_min_Click);
+            // 
+            // X_add
+            // 
+            this.X_add.Location = new System.Drawing.Point(10, 19);
+            this.X_add.Name = "X_add";
+            this.X_add.Size = new System.Drawing.Size(52, 23);
+            this.X_add.TabIndex = 18;
+            this.X_add.Text = "X +";
+            this.X_add.UseVisualStyleBackColor = true;
+            this.X_add.Click += new System.EventHandler(this.X_add_Click);
             // 
             // groupBox4
             // 
-            this.groupBox4.Controls.Add(this.textBox1);
+            this.groupBox4.Controls.Add(this.Serial_box);
             this.groupBox4.Location = new System.Drawing.Point(921, 240);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(182, 221);
@@ -481,15 +538,15 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Serial";
             // 
-            // textBox1
+            // Serial_box
             // 
-            this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox1.Location = new System.Drawing.Point(3, 16);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(176, 202);
-            this.textBox1.TabIndex = 0;
+            this.Serial_box.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Serial_box.Location = new System.Drawing.Point(3, 16);
+            this.Serial_box.Multiline = true;
+            this.Serial_box.Name = "Serial_box";
+            this.Serial_box.ReadOnly = true;
+            this.Serial_box.Size = new System.Drawing.Size(176, 202);
+            this.Serial_box.TabIndex = 0;
             // 
             // Form1
             // 
@@ -497,7 +554,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1108, 473);
+            this.ClientSize = new System.Drawing.Size(1108, 498);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.Actions);
             this.Controls.Add(this.groupBox3);
@@ -509,8 +566,9 @@
             this.Controls.Add(this.print);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.pictureBox1);
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "Form1";
-            this.Text = "Plotter";
+            this.Text = ".";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.Form1_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.Form1_DragEnter);
@@ -523,10 +581,12 @@
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.draw_tool_size)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.Actions.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.draw_tool_size)).EndInit();
+            this.Actions.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Step_size)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.ResumeLayout(false);
@@ -573,7 +633,9 @@
         private System.Windows.Forms.Button X_min;
         private System.Windows.Forms.Button X_add;
         private System.Windows.Forms.GroupBox groupBox4;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox Serial_box;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.NumericUpDown Step_size;
     }
 }
 
