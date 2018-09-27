@@ -57,8 +57,8 @@
             this.label7 = new System.Windows.Forms.Label();
             this.COM_port = new System.Windows.Forms.ComboBox();
             this.Actions = new System.Windows.Forms.GroupBox();
-            this.label10 = new System.Windows.Forms.Label();
             this.Step_size = new System.Windows.Forms.NumericUpDown();
+            this.label10 = new System.Windows.Forms.Label();
             this.pen_up_button = new System.Windows.Forms.Button();
             this.Pen_down_button = new System.Windows.Forms.Button();
             this.Y_min = new System.Windows.Forms.Button();
@@ -68,6 +68,8 @@
             this.X_add = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.Serial_box = new System.Windows.Forms.TextBox();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.result)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Selected_image_x)).BeginInit();
@@ -136,7 +138,7 @@
             // 
             this.calculate.Location = new System.Drawing.Point(615, 159);
             this.calculate.Name = "calculate";
-            this.calculate.Size = new System.Drawing.Size(174, 23);
+            this.calculate.Size = new System.Drawing.Size(106, 23);
             this.calculate.TabIndex = 4;
             this.calculate.Text = "Calclulate Gcode";
             this.calculate.UseVisualStyleBackColor = true;
@@ -425,17 +427,6 @@
             this.Actions.TabStop = false;
             this.Actions.Text = "Actions";
             // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.BackColor = System.Drawing.Color.Transparent;
-            this.label10.Font = new System.Drawing.Font("Times New Roman", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(0, 80);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(50, 14);
-            this.label10.TabIndex = 26;
-            this.label10.Text = "Step size:";
-            // 
             // Step_size
             // 
             this.Step_size.Location = new System.Drawing.Point(49, 78);
@@ -457,6 +448,17 @@
             0,
             0,
             0});
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.BackColor = System.Drawing.Color.Transparent;
+            this.label10.Font = new System.Drawing.Font("Times New Roman", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.Location = new System.Drawing.Point(0, 80);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(50, 14);
+            this.label10.TabIndex = 26;
+            this.label10.Text = "Step size:";
             // 
             // pen_up_button
             // 
@@ -548,6 +550,19 @@
             this.Serial_box.Size = new System.Drawing.Size(176, 202);
             this.Serial_box.TabIndex = 0;
             // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(731, 159);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(184, 23);
+            this.progressBar1.Step = 1;
+            this.progressBar1.TabIndex = 23;
+            // 
+            // backgroundWorker1
+            // 
+            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
+            this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
+            // 
             // Form1
             // 
             this.AllowDrop = true;
@@ -555,6 +570,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1108, 498);
+            this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.Actions);
             this.Controls.Add(this.groupBox3);
@@ -636,6 +652,8 @@
         private System.Windows.Forms.TextBox Serial_box;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.NumericUpDown Step_size;
+        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
     }
 }
 

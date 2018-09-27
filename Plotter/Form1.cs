@@ -3,6 +3,7 @@ using System.Drawing;
 using System.IO;
 using System.IO.Ports;
 using System.Windows.Forms;
+using System.Threading;
 
 
 namespace Plotter
@@ -15,6 +16,7 @@ namespace Plotter
         string poort = "COM3";      
         int baud = 112500;
         //------------------------//
+
 
         private SerialPort myport;
         Bitmap image;
@@ -36,6 +38,7 @@ namespace Plotter
 
         int draw_mode = 1; // 1 = pen    0 = gum
 
+       // bool calculate_status = false;
         public Form1()
         {
             InitializeComponent();
@@ -137,6 +140,208 @@ namespace Plotter
             return false;
         }
 
+        void calculte_gcode()
+        {
+            //var backgroundWorker = sender as BackgroundWorker;
+            if (pictureBox1.Image == null) //check if a image is in the picturebox
+            {
+                return;
+            }
+            image = new Bitmap(pictureBox1.Image);
+
+            StreamWriter sw = new StreamWriter("gcode.txt"); //open file to write gcode
+            int[,] writed = new int[image.Width, image.Height]; //array with points already in gcode
+            result_image = new Bitmap(image.Width, image.Height);
+
+
+            find_begin(); //find first pixel != white
+            int current_x = start_x;
+            int current_y = start_y;
+            int prev_direction = 0;
+
+            sw.WriteLine(pen_down); //write pen down in gcode
+
+            int status = 0;
+            int black_pixel_in_image = 1;
+
+            //count all black pixels in image for status
+            for(int y=0; y < image.Height; y++)
+            {
+                for (int x = 0; x < image.Height; x++)
+                {
+                    if (image.GetPixel(x, y).Name != "ffffffff")
+                        black_pixel_in_image++;
+                }
+            }
+            
+            for (; ; )
+            { //loop infinity
+                int direction = 8; //set default direction 
+
+                //check for arounded pixel that isn't white and set direction
+                if (current_x + 1 < image.Width && current_y + 1 < image.Height)
+                {
+                    if (image.GetPixel(current_x + 1, current_y + 1).Name != "ffffffff" && writed[current_x + 1, current_y + 1] != 1 && check_around(current_x + 1, current_y + 1))
+                    {
+                        direction = 2;
+                    }
+                }
+                if (current_x + 1 < image.Width)
+                {
+                    if (image.GetPixel(current_x + 1, current_y).Name != "ffffffff" && writed[current_x + 1, current_y] != 1 && check_around(current_x + 1, current_y))
+                    {
+                        direction = 0;
+                    }
+                }
+                if (current_x + 1 < image.Width && current_y - 1 >= 0)
+                {
+                    if (image.GetPixel(current_x + 1, current_y - 1).Name != "ffffffff" && writed[current_x + 1, current_y - 1] != 1 && check_around(current_x + 1, current_y - 1))
+                    {
+                        direction = 1;
+                    }
+                }
+                if (current_x - 1 >= 0 && current_y - 1 >= 0)
+                {
+                    if (image.GetPixel(current_x - 1, current_y - 1).Name != "ffffffff" && writed[current_x - 1, current_y - 1] != 1 && check_around(current_x - 1, current_y - 1))
+                    {
+                        direction = 3;
+                    }
+                }
+                if (current_x - 1 >= 0 && current_y + 1 < image.Height)
+                {
+                    if (image.GetPixel(current_x - 1, current_y + 1).Name != "ffffffff" && writed[current_x - 1, current_y + 1] != 1 && check_around(current_x - 1, current_y + 1))
+                    {
+                        direction = 4;
+                    }
+                }
+                if (current_y + 1 < image.Height)
+                {
+                    if (image.GetPixel(current_x, current_y + 1).Name != "ffffffff" && writed[current_x, current_y + 1] != 1 && check_around(current_x, current_y + 1))
+                    {
+                        direction = 5;
+                    }
+                }
+                if (current_y - 1 >= 0)
+                {
+                    if (image.GetPixel(current_x, current_y - 1).Name != "ffffffff" && writed[current_x, current_y - 1] != 1 && check_around(current_x, current_y - 1))
+                    {
+                        direction = 6;
+                    }
+                }
+                if (current_x - 1 >= 0)
+                {
+                    if (image.GetPixel(current_x - 1, current_y).Name != "ffffffff" && writed[current_x - 1, current_y] != 1 && check_around(current_x - 1, current_y))
+                    {
+                        direction = 7;
+                    }
+                }
+
+                //if no arounded pixel is found
+                if (direction == 8)
+                {
+                    int ok = 0;
+                    for (int y = 0; y < image.Height && ok == 0; y++) //loop through all pixels
+                    {
+                        for (int x = 0; x < image.Width && ok == 0; x++)
+                        {
+                            if (image.GetPixel(x, y).Name != "ffffffff" && writed[x, y] != 1 && check_around(x, y)) //check for pixel != white that isn't already writed.
+                            {
+                                current_x = x;
+                                current_y = y;
+                                sw.WriteLine(pen_up);// write pen up to gcode fiel
+                                sw.WriteLine("G0 X" + current_x + " Y" + current_y + " F2400"); //move to coordinate of pixel != white
+                                sw.WriteLine(pen_down); //write pen down to gcode file
+                                ok = 1; //stop with looping
+                                writed[x, y] = 1; //set founden pixel in array writed
+                            }
+                        }
+                    }
+                    if (ok == 0) //all pixels have been writed to gcode file
+                    {
+                        sw.WriteLine(pen_up); //write pen up
+                                              //Close the file
+                        sw.Close();
+
+
+                        result.Image = result_image;
+                        backgroundWorker1.ReportProgress(100);
+                        Thread.Sleep(200);
+                        backgroundWorker1.ReportProgress(0);
+                        return; // break out of infinity loop
+                    }
+
+                }
+                if (direction != prev_direction) //check if direction changes
+                {
+                    sw.WriteLine("G0 X" + current_x + " Y" + current_y + " F2400"); //move to current coordinate
+                    
+                }
+
+                switch (direction)
+                {
+                    case 0:
+                        writed[current_x, current_y] = 1;
+                        result_image.SetPixel(current_x, current_y, Color.Black);
+                        current_x++;
+                        status++;
+                        break;
+
+                    case 1:
+                        writed[current_x, current_y] = 1;
+                        result_image.SetPixel(current_x, current_y, Color.Black);
+                        current_x++;
+                        current_y--;
+                        break;
+
+                    case 2:
+                        writed[current_x, current_y] = 1;
+                        result_image.SetPixel(current_x, current_y, Color.Black);
+                        current_x++;
+                        current_y++;
+                        status++;
+                        break;
+                    case 3:
+                        writed[current_x, current_y] = 1;
+                        result_image.SetPixel(current_x, current_y, Color.Black);
+                        current_x--;
+                        current_y--;
+                        status++;
+                        break;
+                    case 4:
+                        writed[current_x, current_y] = 1;
+                        result_image.SetPixel(current_x, current_y, Color.Black);
+                        current_x--;
+                        current_y++;
+                        status++;
+                        break;
+                    case 5:
+                        writed[current_x, current_y] = 1;
+                        result_image.SetPixel(current_x, current_y, Color.Black);
+                        current_y++;
+                        status++;
+                        break;
+                    case 6:
+                        writed[current_x, current_y] = 1;
+                        result_image.SetPixel(current_x, current_y, Color.Black);
+                        current_y--;
+                        status++;
+                        break;
+                    case 7:
+                        writed[current_x, current_y] = 1;
+                        result_image.SetPixel(current_x, current_y, Color.Black);
+                        current_x--;
+                        status++;
+                        break;
+
+                    default:
+                        break;
+
+
+                }
+                backgroundWorker1.ReportProgress(100 * status / black_pixel_in_image);
+            }
+
+        }
         
         private void Form1_DragDrop(object sender, DragEventArgs e) //function for draging files
         {
@@ -260,182 +465,19 @@ namespace Plotter
 
         private void calculate_Click(object sender, EventArgs e)
         {
+           
 
-            if (pictureBox1.Image == null) //check if a image is in the picturebox
-            {
-                return;
-            }
-            image = new Bitmap(pictureBox1.Image);
             print.Enabled = false;
-            StreamWriter sw = new StreamWriter("gcode.txt"); //open file to write gcode
-            int[,] writed = new int[image.Width, image.Height]; //array with points already in gcode
-            result_image = new Bitmap(image.Width, image.Height);
-            
-
-            find_begin(); //find first pixel != white
-             int current_x = start_x;
-             int current_y = start_y;
-             int prev_direction = 0;
-
-             sw.WriteLine(pen_down); //write pen down in gcode
-
-             for (; ; ) { //loop infinity
-                 int direction = 8; //set default direction 
-
-                //check for arounded pixel that isn't white and set direction
-                if (current_x + 1 < image.Width && current_y + 1 < image.Height )
-                {
-                    if (image.GetPixel(current_x + 1, current_y + 1).Name != "ffffffff" && writed[current_x + 1, current_y + 1] != 1 && check_around(current_x + 1, current_y + 1))
-                    {
-                        direction = 2;
-                    }
-                }
-                if (current_x + 1 < image.Width)
-                {
-                    if (image.GetPixel(current_x + 1, current_y).Name != "ffffffff" && writed[current_x + 1, current_y] != 1 && check_around(current_x + 1, current_y))
-                    {
-                        direction = 0;
-                    }
-                }
-                if (current_x + 1 < image.Width && current_y - 1 >= 0)
-                {
-                    if (image.GetPixel(current_x + 1,current_y - 1).Name != "ffffffff" && writed[current_x + 1, current_y - 1] != 1 && check_around(current_x + 1, current_y - 1))
-                    {
-                        direction = 1;
-                    }
-                }
-                if (current_x - 1 >= 0 && current_y - 1 >= 0)
-                {
-                    if (image.GetPixel(current_x - 1, current_y - 1).Name != "ffffffff" && writed[current_x - 1, current_y - 1] != 1 && check_around(current_x - 1, current_y - 1))
-                    {
-                        direction = 3;
-                    }
-                }
-                if (current_x -1 >= 0  && current_y + 1 < image.Height)
-                {
-                    if (image.GetPixel(current_x - 1, current_y + 1).Name != "ffffffff" && writed[current_x - 1, current_y + 1] != 1 && check_around(current_x - 1, current_y + 1))
-                    {
-                        direction = 4;
-                    }
-                }
-                if ( current_y + 1 < image.Height)
-                {
-                    if (image.GetPixel(current_x, current_y + 1).Name != "ffffffff" && writed[current_x, current_y + 1] != 1 && check_around(current_x, current_y + 1))
-                    {
-                        direction = 5;
-                    }
-                }
-                if ( current_y - 1 >= 0)
-                {
-                    if (image.GetPixel(current_x, current_y - 1).Name != "ffffffff" && writed[current_x, current_y - 1] != 1 && check_around(current_x, current_y - 1))
-                    {
-                        direction = 6;
-                    }
-                }
-                if (current_x - 1 >= 0)
-                {
-                    if (image.GetPixel(Math.Abs(current_x - 1), current_y).Name != "ffffffff" && writed[Math.Abs(current_x - 1), current_y] != 1 && check_around(current_x - 1, current_y))
-                    {
-                        direction = 7;
-                    }
-                }
-
-                 //if no arounded pixel is found
-                 if(direction == 8)
-                 {
-                     int ok = 0;
-                     for(int y=0; y < image.Height && ok ==0; y++) //loop through all pixels
-                     {
-                         for(int x =0; x<image.Width && ok == 0; x++)
-                         {
-                             if (image.GetPixel(x, y).Name != "ffffffff" && writed[x,y] != 1 && check_around(x,y)) //check for pixel != white that isn't already writed.
-                             {
-                                 current_x = x;
-                                 current_y = y;
-                                 sw.WriteLine(pen_up);// write pen up to gcode fiel
-                                 sw.WriteLine("G0 X" + current_x + " Y" + current_y + " F2400"); //move to coordinate of pixel != white
-                                 sw.WriteLine(pen_down); //write pen down to gcode file
-                                 ok = 1; //stop with looping
-                                 writed[x, y] = 1; //set founden pixel in array writed
-                              }
-                         }
-                     }
-                     if(ok == 0) //all pixels have been writed to gcode file
-                     {
-                         sw.WriteLine(pen_up); //write pen up
-                         //Close the file
-                         sw.Close();
-                        
-                     
-                        result.Image = result_image;
-                        print.Enabled = true; // enable print button
-                         return; // break out of infinity loop
-                     }
-                     
-                 }
-                 if (direction != prev_direction) //check if direction changes
-                 {
-                     sw.WriteLine("G0 X" + current_x + " Y" + current_y + " F2400"); //move to current coordinate
-                 }
-
-                 switch (direction)
-                 {
-                     case 0:
-                         writed[current_x, current_y] = 1;
-                        result_image.SetPixel(current_x, current_y, Color.Black);
-                        current_x++;
-                         break;
-
-                     case 1:
-                         writed[current_x, current_y] = 1;
-                        result_image.SetPixel(current_x, current_y, Color.Black);
-                        current_x++;
-                         current_y--;
-                         break;
-
-                     case 2:
-                         writed[current_x, current_y] = 1;
-                        result_image.SetPixel(current_x, current_y, Color.Black);
-                        current_x++;
-                         current_y++;
-                         break;
-                     case 3:
-                         writed[current_x, current_y] = 1;
-                        result_image.SetPixel(current_x, current_y, Color.Black);
-                        current_x--;
-                         current_y--;
-                         break;
-                     case 4:
-                         writed[current_x, current_y] = 1;
-                        result_image.SetPixel(current_x, current_y, Color.Black);
-                        current_x--;
-                         current_y++;
-                         break;
-                     case 5:
-                         writed[current_x, current_y] = 1;
-                        result_image.SetPixel(current_x, current_y, Color.Black);
-                        current_y++;
-                         break;
-                     case 6:
-                         writed[current_x, current_y] = 1;
-                        result_image.SetPixel(current_x, current_y, Color.Black);
-                        current_y--;
-                         break;
-                     case 7:
-                         writed[current_x, current_y] = 1;
-                        result_image.SetPixel(current_x, current_y, Color.Black);
-                        current_x--;
-                         break;
-
-                     default:
-                         break;
 
 
-                 }
-               
-            }
-             
-      }
+            // calculte_gcode();
+
+            backgroundWorker1.WorkerReportsProgress = true;
+            backgroundWorker1.RunWorkerAsync();
+
+            print.Enabled = true; // enable print button
+           
+        }
 
         private void Connect_Click(object sender, EventArgs e)
         {
@@ -635,7 +677,9 @@ namespace Plotter
 
         private void Clean_Click(object sender, EventArgs e)
         {
-
+            myport.WriteLine(pen_up);
+            myport.WriteLine("G0 X5 Y20");
+                                
         }
 
         private void Pen_button_Click(object sender, EventArgs e)
@@ -687,6 +731,16 @@ namespace Plotter
         private void home_Click(object sender, EventArgs e)
         {
             myport.WriteLine("$H");
+        }
+
+        private void backgroundWorker1_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        {
+            calculte_gcode();
+        }
+
+        private void backgroundWorker1_ProgressChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e)
+        {
+            progressBar1.Value = e.ProgressPercentage;
         }
     }
 }
