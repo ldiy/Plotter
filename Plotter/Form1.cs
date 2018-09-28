@@ -393,9 +393,7 @@ namespace Plotter
             numericUpDown1.Enabled = false;
             Selected_image_x.Enabled = false;
             Selected_image_y.Enabled = false;
-            Selected_image_remove.Enabled = false;
-            Pen_button.Enabled = false;
-            Gum.Enabled = true;
+            Selected_image_remove.Enabled = false;         
             X_add.Enabled = false;
             X_min.Enabled = false;
             Y_add.Enabled = false;
@@ -537,16 +535,22 @@ namespace Plotter
                     if (draw_mode == 1)
                     {
                         g.DrawLine(new Pen(Color.Black, (int)draw_tool_size.Value), prev_point, e.Location);
+                        pictureBox1.Invalidate();
+                        prev_point = e.Location;
+                        calculate.Enabled = true;
+                        label1.Text = "";
                     }
                     else if(draw_mode == 0)
                     {
                         g.DrawLine(new Pen(Color.White, (int)draw_tool_size.Value), prev_point, e.Location);
+                        pictureBox1.Invalidate();
+                        prev_point = e.Location;
+                        calculate.Enabled = true;
+                        label1.Text = "";
                     }
+                    
                 }
-                pictureBox1.Invalidate();
-                prev_point = e.Location;
-                calculate.Enabled = true;
-                label1.Text = "";
+               
             }
         }
 
@@ -554,10 +558,66 @@ namespace Plotter
         {
             mouse_status = true;
             prev_point = e.Location;
+
+            if (pictureBox1.Image == null)
+            {
+                Bitmap bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
+                pictureBox1.Image = bmp;
+            }
+
+            using (Graphics g = Graphics.FromImage(pictureBox1.Image))
+            {
+
+                if (draw_mode == 3)
+                {
+                    g.DrawEllipse(new Pen(Color.Black, (int)draw_tool_size.Value), e.Location.X - (int)radius.Value/2, e.Location.Y - (int)radius.Value/2, (int)radius.Value, (int)radius.Value);
+                    pictureBox1.Invalidate();
+                    calculate.Enabled = true;
+                    label1.Text = "";
+                }
+                if (draw_mode == 4)
+                {
+                    g.DrawRectangle(new Pen(Color.Black, (int)draw_tool_size.Value), e.Location.X, e.Location.Y, (int)width.Value, (int)height.Value);
+                   pictureBox1.Invalidate();
+                    calculate.Enabled = true;
+                    label1.Text = "";
+                }
+                if (draw_mode == 6)
+                {
+                   
+                    g.DrawString(Text_draw.Text, new Font("Arial", (int)draw_tool_size.Value), new SolidBrush(System.Drawing.Color.Black),e.Location.X,e.Location.Y);
+                    pictureBox1.Invalidate();
+                    calculate.Enabled = true;
+                    label1.Text = "";
+                }
+            }
         }
 
         private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
         {
+            
+            if (mouse_status && prev_point != null)
+            {
+
+                if (pictureBox1.Image == null)
+                {
+                    Bitmap bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
+                    pictureBox1.Image = bmp;
+                }
+
+                using (Graphics g = Graphics.FromImage(pictureBox1.Image))
+                {
+
+                    if (draw_mode == 2)
+                    {
+                        
+                        g.DrawLine(new Pen(Color.Black, (int)draw_tool_size.Value), prev_point, e.Location);
+                        pictureBox1.Invalidate();
+                        calculate.Enabled = true;
+                        label1.Text = "";
+                    }
+                }
+            }
             mouse_status = false;
         }
 
@@ -681,22 +741,7 @@ namespace Plotter
             myport.WriteLine("G0 X5 Y20");
                                 
         }
-
-        private void Pen_button_Click(object sender, EventArgs e)
-        {
-            Gum.Enabled = true;
-            Pen_button.Enabled = false;
-            draw_mode = 1;
-        
-        }
-
-        private void Gum_Click(object sender, EventArgs e)
-        {
-            Pen_button.Enabled = true;
-            Gum.Enabled = false;
-            draw_mode = 0;
-     
-        }
+             
 
         private void X_add_Click(object sender, EventArgs e)
         {
@@ -742,5 +787,62 @@ namespace Plotter
         {
             progressBar1.Value = e.ProgressPercentage;
         }
+
+    
+
+        private void Tool_select_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            radius.Visible = false;
+            Radius_label.Visible = false;
+            width.Visible = false;
+            width_label.Visible = false;
+            height.Visible = false;
+            height_label.Visible = false;
+            Text_draw.Visible = false;
+            text_label.Visible = false;
+            draw_tool_size.Value = 1;
+
+            switch (Tool_select.Text)
+            {
+                case "Pen":
+                    draw_mode = 1;
+                    break;
+
+                case "Gum":
+                    draw_mode = 0;
+                    break;
+
+                case "Line":
+                    draw_mode = 2;
+                    break;
+
+                case "Circle":
+                    draw_mode = 3;
+                    Radius_label.Visible = true;
+                    radius.Visible = true;
+                    break;
+
+                case "Rectangle":
+                    draw_mode = 4;
+                    width.Visible = true;
+                    width_label.Visible = true;
+                    height.Visible = true;
+                    height_label.Visible = true;
+                    break;
+
+                case "Function":
+                    draw_mode = 5;
+                    break;
+
+                case "Text":
+                    draw_mode = 6;
+                    Text_draw.Visible = true;
+                    text_label.Visible = true;
+                    draw_tool_size.Value = 10;
+                    break;
+            }
+        }
+
+      
     }
 }

@@ -48,11 +48,18 @@
             this.Clean = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.Text_draw = new System.Windows.Forms.TextBox();
+            this.text_label = new System.Windows.Forms.Label();
+            this.height = new System.Windows.Forms.NumericUpDown();
+            this.height_label = new System.Windows.Forms.Label();
+            this.width = new System.Windows.Forms.NumericUpDown();
+            this.width_label = new System.Windows.Forms.Label();
+            this.radius = new System.Windows.Forms.NumericUpDown();
+            this.Radius_label = new System.Windows.Forms.Label();
+            this.Tool_select = new System.Windows.Forms.ComboBox();
             this.label9 = new System.Windows.Forms.Label();
             this.draw_tool_size = new System.Windows.Forms.NumericUpDown();
             this.label8 = new System.Windows.Forms.Label();
-            this.Gum = new System.Windows.Forms.Button();
-            this.Pen_button = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.label7 = new System.Windows.Forms.Label();
             this.COM_port = new System.Windows.Forms.ComboBox();
@@ -77,6 +84,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.height)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.width)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.radius)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.draw_tool_size)).BeginInit();
             this.groupBox3.SuspendLayout();
             this.Actions.SuspendLayout();
@@ -100,9 +110,9 @@
             // 
             // print
             // 
-            this.print.Location = new System.Drawing.Point(615, 434);
+            this.print.Location = new System.Drawing.Point(12, 467);
             this.print.Name = "print";
-            this.print.Size = new System.Drawing.Size(300, 29);
+            this.print.Size = new System.Drawing.Size(1091, 29);
             this.print.TabIndex = 1;
             this.print.Text = "Print";
             this.print.UseVisualStyleBackColor = true;
@@ -136,7 +146,7 @@
             // 
             // calculate
             // 
-            this.calculate.Location = new System.Drawing.Point(615, 159);
+            this.calculate.Location = new System.Drawing.Point(615, 193);
             this.calculate.Name = "calculate";
             this.calculate.Size = new System.Drawing.Size(106, 23);
             this.calculate.TabIndex = 4;
@@ -157,7 +167,7 @@
             // result
             // 
             this.result.BackColor = System.Drawing.Color.White;
-            this.result.Location = new System.Drawing.Point(615, 203);
+            this.result.Location = new System.Drawing.Point(615, 237);
             this.result.Name = "result";
             this.result.Size = new System.Drawing.Size(300, 225);
             this.result.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -168,7 +178,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(618, 185);
+            this.label2.Location = new System.Drawing.Point(618, 219);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(48, 13);
             this.label2.TabIndex = 7;
@@ -295,22 +305,179 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.Text_draw);
+            this.groupBox2.Controls.Add(this.text_label);
+            this.groupBox2.Controls.Add(this.height);
+            this.groupBox2.Controls.Add(this.height_label);
+            this.groupBox2.Controls.Add(this.width);
+            this.groupBox2.Controls.Add(this.width_label);
+            this.groupBox2.Controls.Add(this.radius);
+            this.groupBox2.Controls.Add(this.Radius_label);
+            this.groupBox2.Controls.Add(this.Tool_select);
             this.groupBox2.Controls.Add(this.label9);
             this.groupBox2.Controls.Add(this.draw_tool_size);
             this.groupBox2.Controls.Add(this.label8);
-            this.groupBox2.Controls.Add(this.Gum);
-            this.groupBox2.Controls.Add(this.Pen_button);
             this.groupBox2.Location = new System.Drawing.Point(619, 99);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(296, 54);
+            this.groupBox2.Size = new System.Drawing.Size(296, 88);
             this.groupBox2.TabIndex = 19;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Draw";
             // 
+            // Text_draw
+            // 
+            this.Text_draw.Location = new System.Drawing.Point(46, 55);
+            this.Text_draw.Name = "Text_draw";
+            this.Text_draw.Size = new System.Drawing.Size(238, 20);
+            this.Text_draw.TabIndex = 14;
+            this.Text_draw.Visible = false;
+            // 
+            // text_label
+            // 
+            this.text_label.AutoSize = true;
+            this.text_label.Location = new System.Drawing.Point(9, 58);
+            this.text_label.Name = "text_label";
+            this.text_label.Size = new System.Drawing.Size(31, 13);
+            this.text_label.TabIndex = 13;
+            this.text_label.Text = "Text:";
+            this.text_label.Visible = false;
+            // 
+            // height
+            // 
+            this.height.Increment = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.height.Location = new System.Drawing.Point(209, 56);
+            this.height.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.height.Minimum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.height.Name = "height";
+            this.height.Size = new System.Drawing.Size(75, 20);
+            this.height.TabIndex = 12;
+            this.height.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.height.Visible = false;
+            // 
+            // height_label
+            // 
+            this.height_label.AutoSize = true;
+            this.height_label.Location = new System.Drawing.Point(165, 58);
+            this.height_label.Name = "height_label";
+            this.height_label.Size = new System.Drawing.Size(41, 13);
+            this.height_label.TabIndex = 11;
+            this.height_label.Text = "Height:";
+            this.height_label.Visible = false;
+            // 
+            // width
+            // 
+            this.width.Increment = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.width.Location = new System.Drawing.Point(51, 56);
+            this.width.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.width.Minimum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.width.Name = "width";
+            this.width.Size = new System.Drawing.Size(75, 20);
+            this.width.TabIndex = 10;
+            this.width.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.width.Visible = false;
+            // 
+            // width_label
+            // 
+            this.width_label.AutoSize = true;
+            this.width_label.Location = new System.Drawing.Point(7, 58);
+            this.width_label.Name = "width_label";
+            this.width_label.Size = new System.Drawing.Size(38, 13);
+            this.width_label.TabIndex = 9;
+            this.width_label.Text = "Width:";
+            this.width_label.Visible = false;
+            // 
+            // radius
+            // 
+            this.radius.Increment = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.radius.Location = new System.Drawing.Point(54, 52);
+            this.radius.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.radius.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.radius.Name = "radius";
+            this.radius.Size = new System.Drawing.Size(58, 20);
+            this.radius.TabIndex = 8;
+            this.radius.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.radius.Visible = false;
+            // 
+            // Radius_label
+            // 
+            this.Radius_label.AutoSize = true;
+            this.Radius_label.Location = new System.Drawing.Point(7, 58);
+            this.Radius_label.Name = "Radius_label";
+            this.Radius_label.Size = new System.Drawing.Size(43, 13);
+            this.Radius_label.TabIndex = 7;
+            this.Radius_label.Text = "Radius:";
+            this.Radius_label.Visible = false;
+            // 
+            // Tool_select
+            // 
+            this.Tool_select.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.Tool_select.FormattingEnabled = true;
+            this.Tool_select.Items.AddRange(new object[] {
+            "Pen",
+            "Gum",
+            "Line",
+            "Circle",
+            "Rectangle",
+            "Text",
+            "Function"});
+            this.Tool_select.Location = new System.Drawing.Point(6, 19);
+            this.Tool_select.Name = "Tool_select";
+            this.Tool_select.Size = new System.Drawing.Size(121, 21);
+            this.Tool_select.TabIndex = 6;
+            this.Tool_select.SelectedIndexChanged += new System.EventHandler(this.Tool_select_SelectedIndexChanged);
+            // 
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(229, 24);
+            this.label9.Location = new System.Drawing.Point(272, 22);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(18, 13);
             this.label9.TabIndex = 4;
@@ -318,12 +485,7 @@
             // 
             // draw_tool_size
             // 
-            this.draw_tool_size.Location = new System.Drawing.Point(166, 22);
-            this.draw_tool_size.Maximum = new decimal(new int[] {
-            20,
-            0,
-            0,
-            0});
+            this.draw_tool_size.Location = new System.Drawing.Point(209, 20);
             this.draw_tool_size.Minimum = new decimal(new int[] {
             1,
             0,
@@ -341,31 +503,11 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(130, 24);
+            this.label8.Location = new System.Drawing.Point(173, 22);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(30, 13);
             this.label8.TabIndex = 2;
             this.label8.Text = "Size:";
-            // 
-            // Gum
-            // 
-            this.Gum.Location = new System.Drawing.Point(65, 19);
-            this.Gum.Name = "Gum";
-            this.Gum.Size = new System.Drawing.Size(59, 23);
-            this.Gum.TabIndex = 1;
-            this.Gum.Text = "Gum";
-            this.Gum.UseVisualStyleBackColor = true;
-            this.Gum.Click += new System.EventHandler(this.Gum_Click);
-            // 
-            // Pen_button
-            // 
-            this.Pen_button.Location = new System.Drawing.Point(6, 19);
-            this.Pen_button.Name = "Pen_button";
-            this.Pen_button.Size = new System.Drawing.Size(53, 23);
-            this.Pen_button.TabIndex = 0;
-            this.Pen_button.Text = "Pen";
-            this.Pen_button.UseVisualStyleBackColor = true;
-            this.Pen_button.Click += new System.EventHandler(this.Pen_button_Click);
             // 
             // groupBox3
             // 
@@ -552,7 +694,7 @@
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(731, 159);
+            this.progressBar1.Location = new System.Drawing.Point(731, 193);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(184, 23);
             this.progressBar1.Step = 1;
@@ -584,7 +726,7 @@
             this.Controls.Add(this.pictureBox1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "Form1";
-            this.Text = ".";
+            this.Text = "Plotter";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.Form1_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.Form1_DragEnter);
@@ -597,6 +739,9 @@
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.height)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.width)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.radius)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.draw_tool_size)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
@@ -635,8 +780,6 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.NumericUpDown draw_tool_size;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Button Gum;
-        private System.Windows.Forms.Button Pen_button;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.ComboBox COM_port;
@@ -654,6 +797,15 @@
         private System.Windows.Forms.NumericUpDown Step_size;
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.Windows.Forms.ComboBox Tool_select;
+        private System.Windows.Forms.NumericUpDown radius;
+        private System.Windows.Forms.Label Radius_label;
+        private System.Windows.Forms.NumericUpDown height;
+        private System.Windows.Forms.Label height_label;
+        private System.Windows.Forms.NumericUpDown width;
+        private System.Windows.Forms.Label width_label;
+        private System.Windows.Forms.TextBox Text_draw;
+        private System.Windows.Forms.Label text_label;
     }
 }
 
