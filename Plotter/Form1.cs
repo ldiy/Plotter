@@ -4,7 +4,9 @@ using System.IO;
 using System.IO.Ports;
 using System.Windows.Forms;
 using System.Threading;
-
+using OxyPlot;
+using OxyPlot.Series;
+using OxyPlot.WindowsForms;
 
 namespace Plotter
 {
@@ -338,7 +340,7 @@ namespace Plotter
 
 
                 }
-                backgroundWorker1.ReportProgress(100 * status / black_pixel_in_image);
+                //backgroundWorker1.ReportProgress(100 * status / black_pixel_in_image);
             }
 
         }
@@ -629,7 +631,7 @@ namespace Plotter
               {
                   for (int x = 0; x < temp.Width; x++)
                   {
-                      if (x + image_x < image.Width && y + image_y < image.Height && temp.GetPixel(x, y).Name == "ff000000" && prev_image.GetPixel(x, y).Name != "ff000000")
+                      if (x + image_x < image.Width && y + image_y < image.Height && temp.GetPixel(x, y).Name != "ffffffff" && prev_image.GetPixel(x, y).Name == "ffffffff")
                           image.SetPixel(x + image_x, y + image_y, Color.White);
                   }
               }
@@ -641,7 +643,7 @@ namespace Plotter
               {
                   for (int x = 0; x < temp.Width; x++)
                   {
-                      if (x + image_x < image.Width && y + image_y < image.Height && temp.GetPixel(x, y).Name == "ff000000")
+                      if (x + image_x < image.Width && y + image_y < image.Height && temp.GetPixel(x, y).Name != "ffffffff")
                           image.SetPixel(x + image_x, y + image_y, Color.Black);
                   }
               }
@@ -656,7 +658,7 @@ namespace Plotter
             {
                 for (int x = 0; x < temp.Width; x++)
                 {
-                    if (x + image_x < image.Width && y + image_y < image.Height && temp.GetPixel(x, y).Name == "ff000000" && prev_image.GetPixel(x, y).Name != "ff000000")
+                    if (x + image_x < image.Width && y + image_y < image.Height && temp.GetPixel(x, y).Name != "ffffffff" && prev_image.GetPixel(x, y).Name == "ffffffff")
                         image.SetPixel(x + image_x, y + image_y, Color.White);
                 }
             }
@@ -668,7 +670,7 @@ namespace Plotter
             {
                 for (int x = 0; x < temp.Width; x++)
                 {
-                    if (x + image_x < image.Width && y + image_y < image.Height && temp.GetPixel(x, y).Name == "ff000000")
+                    if (x + image_x < image.Width && y + image_y < image.Height && temp.GetPixel(x, y).Name != "ffffffff")
                         image.SetPixel(x + image_x, y + image_y, Color.Black);
                 }
             }
@@ -682,7 +684,7 @@ namespace Plotter
             {
                 for (int x = 0; x < temp.Width; x++)
                 {
-                    if (x + image_x < image.Width && y + image_y < image.Height && temp.GetPixel(x, y).Name == "ff000000" && prev_image.GetPixel(x, y).Name != "ff000000")
+                    if (x + image_x < image.Width && y + image_y < image.Height && temp.GetPixel(x, y).Name != "ffffffff" && prev_image.GetPixel(x, y).Name == "ffffffff")
                         image.SetPixel(x + image_x, y + image_y, Color.White);
                 }
             }
@@ -695,7 +697,7 @@ namespace Plotter
             {
                 for (int x = 0; x < temp.Width; x++)
                 {
-                    if (x + image_x < image.Width && y + image_y < image.Height && temp.GetPixel(x, y).Name == "ff000000")
+                    if (x + image_x < image.Width && y + image_y < image.Height && temp.GetPixel(x, y).Name != "ffffffff")
                         image.SetPixel(x + image_x, y + image_y, Color.Black);
                 }
             }
@@ -710,7 +712,7 @@ namespace Plotter
             {
                 for (int x = 0; x < temp.Width; x++)
                 {
-                    if (x + image_x < image.Width && y + image_y < image.Height && temp.GetPixel(x, y).Name == "ff000000" && prev_image.GetPixel(x, y).Name != "ff000000")
+                    if (x + image_x < image.Width && y + image_y < image.Height && temp.GetPixel(x, y).Name != "ffffffff" && prev_image.GetPixel(x, y).Name == "ffffffff")
                         image.SetPixel(x + image_x, y + image_y, Color.White);
                 }
             }
@@ -800,6 +802,9 @@ namespace Plotter
             height_label.Visible = false;
             Text_draw.Visible = false;
             text_label.Visible = false;
+            function_input.Visible = false;
+            function_label.Visible = false;
+            function_button.Visible = false;
             draw_tool_size.Value = 1;
 
             switch (Tool_select.Text)
@@ -830,9 +835,7 @@ namespace Plotter
                     height_label.Visible = true;
                     break;
 
-                case "Function":
-                    draw_mode = 5;
-                    break;
+                
 
                 case "Text":
                     draw_mode = 6;
@@ -843,6 +846,6 @@ namespace Plotter
             }
         }
 
-      
+       
     }
 }

@@ -466,8 +466,7 @@
             "Line",
             "Circle",
             "Rectangle",
-            "Text",
-            "Function"});
+            "Text"});
             this.Tool_select.Location = new System.Drawing.Point(6, 19);
             this.Tool_select.Name = "Tool_select";
             this.Tool_select.Size = new System.Drawing.Size(121, 21);
