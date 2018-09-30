@@ -802,9 +802,7 @@ namespace Plotter
             height_label.Visible = false;
             Text_draw.Visible = false;
             text_label.Visible = false;
-            function_input.Visible = false;
-            function_label.Visible = false;
-            function_button.Visible = false;
+           
             draw_tool_size.Value = 1;
 
             switch (Tool_select.Text)
