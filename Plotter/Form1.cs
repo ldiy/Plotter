@@ -802,7 +802,11 @@ namespace Plotter
             height_label.Visible = false;
             Text_draw.Visible = false;
             text_label.Visible = false;
-           
+            function_a.Visible = false;
+            function_b.Visible = false;
+            function_c.Visible = false;
+            function_button.Visible = false;
+            function_label.Visible = false;
             draw_tool_size.Value = 1;
 
             switch (Tool_select.Text)
@@ -833,7 +837,13 @@ namespace Plotter
                     height_label.Visible = true;
                     break;
 
-                
+                case "Function":
+                    function_a.Visible = true;
+                    function_b.Visible = true;
+                    function_c.Visible = true;
+                    function_button.Visible = true;
+                    function_label.Visible = true;
+                    break;
 
                 case "Text":
                     draw_mode = 6;
@@ -844,6 +854,87 @@ namespace Plotter
             }
         }
 
-       
+        private void function_button_Click(object sender, EventArgs e)
+        {
+            float a = -1*(float)function_a.Value;
+            float b = -1*(float)function_b.Value;
+            float c = -1*(float)function_c.Value;
+
+            temp = new Bitmap(image);
+            temp_org = new Bitmap(image);
+
+            prev_image = new Bitmap(image);
+
+            float i = -1 * pictureBox1.Width / 2;
+            int fx = (int)Math.Floor(a * i * i + b * i + c) + pictureBox1.Height / 2;
+            prev_point = new Point(0 , fx);
+            using (Graphics g = Graphics.FromImage(temp) )
+            {
+                for (i = -1 * pictureBox1.Width / 2; i < pictureBox1.Width / 2; i= i + (float)0.1)
+                {
+                    fx = (int)Math.Floor(a * i * i + b * i + c) + pictureBox1.Height / 2;
+                    if (fx < image.Height && fx >= 0)
+                    {
+                        // temp.SetPixel((int)i + pictureBox1.Width / 2, fx, Color.Black);
+                        Point current = new Point((int)i + pictureBox1.Width / 2, fx);
+
+                        g.DrawLine(new Pen(Color.Black, (int)draw_tool_size.Value), prev_point, current);
+                        prev_point = current;
+                    }
+                }
+            }
+
+            fx = (int)Math.Floor(a * i * i + b * i + c) + pictureBox1.Height / 2;
+            prev_point = new Point(0, fx);
+            using (Graphics g = Graphics.FromImage(temp_org))
+            {
+                for (i = -1 * pictureBox1.Width / 2; i < pictureBox1.Width / 2; i = i + (float)0.1)
+                {
+                    fx = (int)Math.Floor(a * i * i + b * i + c) + pictureBox1.Height / 2;
+                    if (fx < image.Height && fx >= 0)
+                    {
+                        // temp.SetPixel((int)i + pictureBox1.Width / 2, fx, Color.Black);
+                        Point current = new Point((int)i + pictureBox1.Width / 2, fx);
+
+                        g.DrawLine(new Pen(Color.Black, (int)draw_tool_size.Value), prev_point, current);
+                        prev_point = current;
+                    }
+                }
+            }
+
+            fx = (int)Math.Floor(a * i * i + b * i + c) + pictureBox1.Height / 2;
+            prev_point = new Point(0, fx);
+            using (Graphics g = Graphics.FromImage(image) )
+            {
+                for (i = -1 * pictureBox1.Width / 2; i < pictureBox1.Width / 2; i = i + (float)0.1)
+                {
+                    fx = (int)Math.Floor(a * i * i + b * i + c) + pictureBox1.Height / 2;
+                    if (fx < image.Height && fx >= 0)
+                    {
+                        // temp.SetPixel((int)i + pictureBox1.Width / 2, fx, Color.Black);
+                        Point current = new Point((int)i + pictureBox1.Width / 2, fx);
+
+                        g.DrawLine(new Pen(Color.Black, (int)draw_tool_size.Value), prev_point, current);
+                        prev_point = current;
+                    }
+                }
+            }
+
+           
+            pictureBox1.Image =image; //display bitmap in picturebox
+
+            //set some vars
+            temp_height_org = temp.Height;
+            temp_width_org = temp.Width;
+            label1.Text = "";
+            calculate.Enabled = true;
+            numericUpDown1.Value = 100;
+            Selected_image_x.Value = 0;
+            Selected_image_y.Value = 0;
+            numericUpDown1.Enabled = true;
+            Selected_image_x.Enabled = true;
+            Selected_image_y.Enabled = true;
+            Selected_image_remove.Enabled = true;
+        }
     }
 }

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.print = new System.Windows.Forms.Button();
             this.SelectImage = new System.Windows.Forms.Button();
@@ -77,6 +78,11 @@
             this.Serial_box = new System.Windows.Forms.TextBox();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.function_a = new System.Windows.Forms.NumericUpDown();
+            this.function_b = new System.Windows.Forms.NumericUpDown();
+            this.function_c = new System.Windows.Forms.NumericUpDown();
+            this.function_button = new System.Windows.Forms.Button();
+            this.function_label = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.result)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Selected_image_x)).BeginInit();
@@ -92,6 +98,9 @@
             this.Actions.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Step_size)).BeginInit();
             this.groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.function_a)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.function_b)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.function_c)).BeginInit();
             this.SuspendLayout();
             // 
             // pictureBox1
@@ -305,18 +314,23 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.function_button);
+            this.groupBox2.Controls.Add(this.function_c);
+            this.groupBox2.Controls.Add(this.function_b);
+            this.groupBox2.Controls.Add(this.function_a);
             this.groupBox2.Controls.Add(this.Text_draw);
-            this.groupBox2.Controls.Add(this.text_label);
             this.groupBox2.Controls.Add(this.height);
             this.groupBox2.Controls.Add(this.height_label);
             this.groupBox2.Controls.Add(this.width);
-            this.groupBox2.Controls.Add(this.width_label);
             this.groupBox2.Controls.Add(this.radius);
-            this.groupBox2.Controls.Add(this.Radius_label);
             this.groupBox2.Controls.Add(this.Tool_select);
             this.groupBox2.Controls.Add(this.label9);
             this.groupBox2.Controls.Add(this.draw_tool_size);
             this.groupBox2.Controls.Add(this.label8);
+            this.groupBox2.Controls.Add(this.text_label);
+            this.groupBox2.Controls.Add(this.width_label);
+            this.groupBox2.Controls.Add(this.Radius_label);
+            this.groupBox2.Controls.Add(this.function_label);
             this.groupBox2.Location = new System.Drawing.Point(619, 99);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(296, 88);
@@ -466,7 +480,8 @@
             "Line",
             "Circle",
             "Rectangle",
-            "Text"});
+            "Text",
+            "Function"});
             this.Tool_select.Location = new System.Drawing.Point(6, 19);
             this.Tool_select.Name = "Tool_select";
             this.Tool_select.Size = new System.Drawing.Size(121, 21);
@@ -704,6 +719,71 @@
             this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
             this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
             // 
+            // function_a
+            // 
+            this.function_a.DecimalPlaces = 2;
+            this.function_a.Location = new System.Drawing.Point(36, 55);
+            this.function_a.Minimum = new decimal(new int[] {
+            100,
+            0,
+            0,
+            -2147483648});
+            this.function_a.Name = "function_a";
+            this.function_a.Size = new System.Drawing.Size(45, 20);
+            this.function_a.TabIndex = 15;
+            this.function_a.Visible = false;
+            // 
+            // function_b
+            // 
+            this.function_b.DecimalPlaces = 2;
+            this.function_b.Location = new System.Drawing.Point(103, 55);
+            this.function_b.Minimum = new decimal(new int[] {
+            100,
+            0,
+            0,
+            -2147483648});
+            this.function_b.Name = "function_b";
+            this.function_b.Size = new System.Drawing.Size(45, 20);
+            this.function_b.TabIndex = 16;
+            this.function_b.Visible = false;
+            // 
+            // function_c
+            // 
+            this.function_c.DecimalPlaces = 2;
+            this.function_c.Location = new System.Drawing.Point(168, 55);
+            this.function_c.Minimum = new decimal(new int[] {
+            100,
+            0,
+            0,
+            -2147483648});
+            this.function_c.Name = "function_c";
+            this.function_c.Size = new System.Drawing.Size(45, 20);
+            this.function_c.TabIndex = 17;
+            this.function_c.Visible = false;
+            // 
+            // function_button
+            // 
+            this.function_button.Location = new System.Drawing.Point(219, 53);
+            this.function_button.Name = "function_button";
+            this.function_button.Size = new System.Drawing.Size(65, 23);
+            this.function_button.TabIndex = 18;
+            this.function_button.Text = "Draw";
+            this.function_button.UseVisualStyleBackColor = true;
+            this.function_button.Visible = false;
+            this.function_button.Click += new System.EventHandler(this.function_button_Click);
+            // 
+            // function_label
+            // 
+            this.function_label.AutoSize = true;
+            this.function_label.BackColor = System.Drawing.Color.Transparent;
+            this.function_label.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.function_label.Location = new System.Drawing.Point(9, 59);
+            this.function_label.Name = "function_label";
+            this.function_label.Size = new System.Drawing.Size(155, 13);
+            this.function_label.TabIndex = 19;
+            this.function_label.Text = "fx=                    X²                   X";
+            this.function_label.Visible = false;
+            // 
             // Form1
             // 
             this.AllowDrop = true;
@@ -724,6 +804,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.pictureBox1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.Text = "Plotter";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -749,6 +830,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.Step_size)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.function_a)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.function_b)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.function_c)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -805,6 +889,11 @@
         private System.Windows.Forms.Label width_label;
         private System.Windows.Forms.TextBox Text_draw;
         private System.Windows.Forms.Label text_label;
+        private System.Windows.Forms.Label function_label;
+        private System.Windows.Forms.Button function_button;
+        private System.Windows.Forms.NumericUpDown function_c;
+        private System.Windows.Forms.NumericUpDown function_b;
+        private System.Windows.Forms.NumericUpDown function_a;
     }
 }
 
