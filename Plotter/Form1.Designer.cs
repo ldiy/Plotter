@@ -49,18 +49,23 @@
             this.Clean = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.function_button = new System.Windows.Forms.Button();
+            this.function_c = new System.Windows.Forms.NumericUpDown();
+            this.function_b = new System.Windows.Forms.NumericUpDown();
+            this.function_a = new System.Windows.Forms.NumericUpDown();
             this.Text_draw = new System.Windows.Forms.TextBox();
-            this.text_label = new System.Windows.Forms.Label();
             this.height = new System.Windows.Forms.NumericUpDown();
             this.height_label = new System.Windows.Forms.Label();
             this.width = new System.Windows.Forms.NumericUpDown();
-            this.width_label = new System.Windows.Forms.Label();
             this.radius = new System.Windows.Forms.NumericUpDown();
-            this.Radius_label = new System.Windows.Forms.Label();
             this.Tool_select = new System.Windows.Forms.ComboBox();
             this.label9 = new System.Windows.Forms.Label();
             this.draw_tool_size = new System.Windows.Forms.NumericUpDown();
             this.label8 = new System.Windows.Forms.Label();
+            this.text_label = new System.Windows.Forms.Label();
+            this.width_label = new System.Windows.Forms.Label();
+            this.Radius_label = new System.Windows.Forms.Label();
+            this.function_label = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.label7 = new System.Windows.Forms.Label();
             this.COM_port = new System.Windows.Forms.ComboBox();
@@ -78,11 +83,6 @@
             this.Serial_box = new System.Windows.Forms.TextBox();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.function_a = new System.Windows.Forms.NumericUpDown();
-            this.function_b = new System.Windows.Forms.NumericUpDown();
-            this.function_c = new System.Windows.Forms.NumericUpDown();
-            this.function_button = new System.Windows.Forms.Button();
-            this.function_label = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.result)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Selected_image_x)).BeginInit();
@@ -90,6 +90,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.function_c)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.function_b)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.function_a)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.height)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.width)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.radius)).BeginInit();
@@ -98,9 +101,6 @@
             this.Actions.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Step_size)).BeginInit();
             this.groupBox4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.function_a)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.function_b)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.function_c)).BeginInit();
             this.SuspendLayout();
             // 
             // pictureBox1
@@ -338,6 +338,59 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Draw";
             // 
+            // function_button
+            // 
+            this.function_button.Location = new System.Drawing.Point(219, 53);
+            this.function_button.Name = "function_button";
+            this.function_button.Size = new System.Drawing.Size(65, 23);
+            this.function_button.TabIndex = 18;
+            this.function_button.Text = "Draw";
+            this.function_button.UseVisualStyleBackColor = true;
+            this.function_button.Visible = false;
+            this.function_button.Click += new System.EventHandler(this.function_button_Click);
+            // 
+            // function_c
+            // 
+            this.function_c.DecimalPlaces = 2;
+            this.function_c.Location = new System.Drawing.Point(168, 55);
+            this.function_c.Minimum = new decimal(new int[] {
+            100,
+            0,
+            0,
+            -2147483648});
+            this.function_c.Name = "function_c";
+            this.function_c.Size = new System.Drawing.Size(45, 20);
+            this.function_c.TabIndex = 17;
+            this.function_c.Visible = false;
+            // 
+            // function_b
+            // 
+            this.function_b.DecimalPlaces = 2;
+            this.function_b.Location = new System.Drawing.Point(103, 55);
+            this.function_b.Minimum = new decimal(new int[] {
+            100,
+            0,
+            0,
+            -2147483648});
+            this.function_b.Name = "function_b";
+            this.function_b.Size = new System.Drawing.Size(45, 20);
+            this.function_b.TabIndex = 16;
+            this.function_b.Visible = false;
+            // 
+            // function_a
+            // 
+            this.function_a.DecimalPlaces = 2;
+            this.function_a.Location = new System.Drawing.Point(36, 55);
+            this.function_a.Minimum = new decimal(new int[] {
+            100,
+            0,
+            0,
+            -2147483648});
+            this.function_a.Name = "function_a";
+            this.function_a.Size = new System.Drawing.Size(45, 20);
+            this.function_a.TabIndex = 15;
+            this.function_a.Visible = false;
+            // 
             // Text_draw
             // 
             this.Text_draw.Location = new System.Drawing.Point(46, 55);
@@ -345,16 +398,6 @@
             this.Text_draw.Size = new System.Drawing.Size(238, 20);
             this.Text_draw.TabIndex = 14;
             this.Text_draw.Visible = false;
-            // 
-            // text_label
-            // 
-            this.text_label.AutoSize = true;
-            this.text_label.Location = new System.Drawing.Point(9, 58);
-            this.text_label.Name = "text_label";
-            this.text_label.Size = new System.Drawing.Size(31, 13);
-            this.text_label.TabIndex = 13;
-            this.text_label.Text = "Text:";
-            this.text_label.Visible = false;
             // 
             // height
             // 
@@ -422,16 +465,6 @@
             0});
             this.width.Visible = false;
             // 
-            // width_label
-            // 
-            this.width_label.AutoSize = true;
-            this.width_label.Location = new System.Drawing.Point(7, 58);
-            this.width_label.Name = "width_label";
-            this.width_label.Size = new System.Drawing.Size(38, 13);
-            this.width_label.TabIndex = 9;
-            this.width_label.Text = "Width:";
-            this.width_label.Visible = false;
-            // 
             // radius
             // 
             this.radius.Increment = new decimal(new int[] {
@@ -459,16 +492,6 @@
             0,
             0});
             this.radius.Visible = false;
-            // 
-            // Radius_label
-            // 
-            this.Radius_label.AutoSize = true;
-            this.Radius_label.Location = new System.Drawing.Point(7, 58);
-            this.Radius_label.Name = "Radius_label";
-            this.Radius_label.Size = new System.Drawing.Size(43, 13);
-            this.Radius_label.TabIndex = 7;
-            this.Radius_label.Text = "Radius:";
-            this.Radius_label.Visible = false;
             // 
             // Tool_select
             // 
@@ -522,6 +545,48 @@
             this.label8.Size = new System.Drawing.Size(30, 13);
             this.label8.TabIndex = 2;
             this.label8.Text = "Size:";
+            // 
+            // text_label
+            // 
+            this.text_label.AutoSize = true;
+            this.text_label.Location = new System.Drawing.Point(9, 58);
+            this.text_label.Name = "text_label";
+            this.text_label.Size = new System.Drawing.Size(31, 13);
+            this.text_label.TabIndex = 13;
+            this.text_label.Text = "Text:";
+            this.text_label.Visible = false;
+            // 
+            // width_label
+            // 
+            this.width_label.AutoSize = true;
+            this.width_label.Location = new System.Drawing.Point(7, 58);
+            this.width_label.Name = "width_label";
+            this.width_label.Size = new System.Drawing.Size(38, 13);
+            this.width_label.TabIndex = 9;
+            this.width_label.Text = "Width:";
+            this.width_label.Visible = false;
+            // 
+            // Radius_label
+            // 
+            this.Radius_label.AutoSize = true;
+            this.Radius_label.Location = new System.Drawing.Point(7, 58);
+            this.Radius_label.Name = "Radius_label";
+            this.Radius_label.Size = new System.Drawing.Size(43, 13);
+            this.Radius_label.TabIndex = 7;
+            this.Radius_label.Text = "Radius:";
+            this.Radius_label.Visible = false;
+            // 
+            // function_label
+            // 
+            this.function_label.AutoSize = true;
+            this.function_label.BackColor = System.Drawing.Color.Transparent;
+            this.function_label.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.function_label.Location = new System.Drawing.Point(9, 59);
+            this.function_label.Name = "function_label";
+            this.function_label.Size = new System.Drawing.Size(155, 13);
+            this.function_label.TabIndex = 19;
+            this.function_label.Text = "fx=                    X²                   X";
+            this.function_label.Visible = false;
             // 
             // groupBox3
             // 
@@ -719,71 +784,6 @@
             this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
             this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
             // 
-            // function_a
-            // 
-            this.function_a.DecimalPlaces = 2;
-            this.function_a.Location = new System.Drawing.Point(36, 55);
-            this.function_a.Minimum = new decimal(new int[] {
-            100,
-            0,
-            0,
-            -2147483648});
-            this.function_a.Name = "function_a";
-            this.function_a.Size = new System.Drawing.Size(45, 20);
-            this.function_a.TabIndex = 15;
-            this.function_a.Visible = false;
-            // 
-            // function_b
-            // 
-            this.function_b.DecimalPlaces = 2;
-            this.function_b.Location = new System.Drawing.Point(103, 55);
-            this.function_b.Minimum = new decimal(new int[] {
-            100,
-            0,
-            0,
-            -2147483648});
-            this.function_b.Name = "function_b";
-            this.function_b.Size = new System.Drawing.Size(45, 20);
-            this.function_b.TabIndex = 16;
-            this.function_b.Visible = false;
-            // 
-            // function_c
-            // 
-            this.function_c.DecimalPlaces = 2;
-            this.function_c.Location = new System.Drawing.Point(168, 55);
-            this.function_c.Minimum = new decimal(new int[] {
-            100,
-            0,
-            0,
-            -2147483648});
-            this.function_c.Name = "function_c";
-            this.function_c.Size = new System.Drawing.Size(45, 20);
-            this.function_c.TabIndex = 17;
-            this.function_c.Visible = false;
-            // 
-            // function_button
-            // 
-            this.function_button.Location = new System.Drawing.Point(219, 53);
-            this.function_button.Name = "function_button";
-            this.function_button.Size = new System.Drawing.Size(65, 23);
-            this.function_button.TabIndex = 18;
-            this.function_button.Text = "Draw";
-            this.function_button.UseVisualStyleBackColor = true;
-            this.function_button.Visible = false;
-            this.function_button.Click += new System.EventHandler(this.function_button_Click);
-            // 
-            // function_label
-            // 
-            this.function_label.AutoSize = true;
-            this.function_label.BackColor = System.Drawing.Color.Transparent;
-            this.function_label.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.function_label.Location = new System.Drawing.Point(9, 59);
-            this.function_label.Name = "function_label";
-            this.function_label.Size = new System.Drawing.Size(155, 13);
-            this.function_label.TabIndex = 19;
-            this.function_label.Text = "fx=                    X²                   X";
-            this.function_label.Visible = false;
-            // 
             // Form1
             // 
             this.AllowDrop = true;
@@ -819,6 +819,9 @@
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.function_c)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.function_b)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.function_a)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.height)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.width)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.radius)).EndInit();
@@ -830,9 +833,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.Step_size)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.function_a)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.function_b)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.function_c)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

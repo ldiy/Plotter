@@ -340,7 +340,7 @@ namespace Plotter
 
 
                 }
-                //backgroundWorker1.ReportProgress(100 * status / black_pixel_in_image);
+                backgroundWorker1.ReportProgress(100 * status / black_pixel_in_image);
             }
 
         }
