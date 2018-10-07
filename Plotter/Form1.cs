@@ -739,9 +739,23 @@ namespace Plotter
 
         private void Clean_Click(object sender, EventArgs e)
         {
-            myport.WriteLine(pen_up);
-            myport.WriteLine("G0 X5 Y20");
-                                
+            MessageBox.Show("Switch the lever to continue with this action!");
+            //This is the ''bordveger'' from the plotter
+            myport.WriteLine("$H"); //we start with the plotter at its starting place
+            myport.WriteLine(pen_down); //with this command we let the servo go down and put the bordveger against the board
+           for(int x = 0; x <= pictureBox1.Width; x++)
+           {
+                for (int y = 0; y <= pictureBox1.Height; y += 20)
+                {
+
+                    myport.WriteLine("G0 " +"X"+x.ToString() + " Y"+y.ToString()); //We replace the coords with G code to let the steppers go to specific locations
+
+                }
+            }
+            myport.WriteLine(pen_up); //The bordveger is done with cleaning and the servo goes back up
+            myport.WriteLine("$H"); //then we put the pen and bordveger back at their beginning place
+            
+
         }
              
 
